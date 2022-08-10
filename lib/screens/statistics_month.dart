@@ -20,9 +20,11 @@ import '../statistics_month/sleep_quality_month.dart';
 List<Sleep> sleepMonthStatistics = [];
 List<Sleep> tryingMonth = [];
 
+//Οθόνη στατιστικών μήνα
 class StatisticsMonth extends StatefulWidget {
   final AnimationController? animationController;
-  const StatisticsMonth({Key? key, this.animationController}) : super(key: key);
+  const StatisticsMonth({Key? key, this.animationController})
+      : super(key: key); //constructor οθόνης
 
   @override
   State<StatisticsMonth> createState() => _StatisticsMonthState();
@@ -30,6 +32,7 @@ class StatisticsMonth extends StatefulWidget {
 
 class _StatisticsMonthState extends State<StatisticsMonth>
     with TickerProviderStateMixin {
+  //αρχικοποιήσεις
   Animation<double>? topBarAnimation;
   final ScrollController scrollController = ScrollController();
   double topBarOpacity = 0.0;
@@ -38,10 +41,12 @@ class _StatisticsMonthState extends State<StatisticsMonth>
   List<Widget> listMonth = <Widget>[];
   late CategoryType category;
   var _isLoading = true;
+
   @override
   void initState() {
-    category = CategoryType.sleep_stages;
+    category = CategoryType.sleep_stages; //προεπιλεγμένη κατηγορία sleep stages
     topBarAnimation = CurvedAnimation(
+      //animation Οταν γίνετε επαφή με το app bar
       parent: widget.animationController!,
       curve: Interval(
         0,
@@ -50,6 +55,7 @@ class _StatisticsMonthState extends State<StatisticsMonth>
       ),
     );
     scrollController.addListener(() {
+      //παρακολοθούμε το scrolling για να ξέρουμε πότε βρεθήκαμε στο app bar
       if (scrollController.offset >= 24) {
         if (topBarOpacity != 1.0) {
           setState(() {
@@ -72,36 +78,35 @@ class _StatisticsMonthState extends State<StatisticsMonth>
       }
     });
     super.initState();
-    getData();
+    getData(); //συνάρτηση για άντληση δεδομένων
   }
 
   void getData() async {
     final data = await DB().getAllRecordsByMonth(
+        //κάνουμε κλήση της συνάρτησης της βάσης όπου παίνρουμε τα δεδομένα για 30 ημέρες
         DateFormat('yyyy-MM-dd').format(startDate),
         DateFormat('yyyy-MM-dd').format(endDate));
     setState(() {
       sleepMonthStatistics = [...data];
 
-      _isLoading = false;
+      _isLoading = false; //για να ξέρουμε οτι τα δεδόμενα διαβάστηκαν επιτυχώς
       addItemsSleepStages();
     });
   }
 
+//widgets sleep stages
   void addItemsSleepStages() {
     listMonth.add(
       CategoryWidget(
+        //widget για την δημιουργία των 3 κατηγοριών(sleep_stages,sleep_quality,time_in_bed)
         onApplyClick: (CategoryType categoryType) {
+          //calback function για να ξέρουμε ποια κατηγορία είναι επιλεγμένη κάθε φορά
           setState(() {
             category = categoryType;
             listMonth = [];
 
             if (categoryType == CategoryType.sleep_stages) {
               addItemsSleepStages();
-              // } else if (categoryType == CategoryType.sleep_quality) {
-              //   addAnother();
-              // } else if (categoryType == CategoryType.time_in_bed) {
-              //   addTimeInBed();
-              // }
             } else if (categoryType == CategoryType.sleep_quality) {
               addItemsSleepQuality();
             } else if (categoryType == CategoryType.time_in_bed) {
@@ -113,13 +118,9 @@ class _StatisticsMonthState extends State<StatisticsMonth>
     );
     listMonth.add(MonthChart());
     listMonth.add(AdviceCard());
-    // ScaffoldMessenger.of(context).showSnackBar(
-    //   SnackBar(
-    //     content: Text("Flutter default Snackbar"),
-    //   ),
-    // );
   }
 
+//widgets κατηγορίας sleep quality
   void addItemsSleepQuality() {
     listMonth.add(
       CategoryWidget(
@@ -130,11 +131,6 @@ class _StatisticsMonthState extends State<StatisticsMonth>
 
             if (categoryType == CategoryType.sleep_stages) {
               addItemsSleepStages();
-              // } else if (categoryType == CategoryType.sleep_quality) {
-              //   addAnother();
-              // } else if (categoryType == CategoryType.time_in_bed) {
-              //   addTimeInBed();
-              // }
             } else if (categoryType == CategoryType.sleep_quality) {
               addItemsSleepQuality();
             } else if (categoryType == CategoryType.time_in_bed) {
@@ -148,6 +144,7 @@ class _StatisticsMonthState extends State<StatisticsMonth>
     listMonth.add(LineChartSample2());
   }
 
+//widgets time_in_bed
   void addItemsDurationCategory() {
     listMonth.add(
       CategoryWidget(
@@ -188,7 +185,7 @@ class _StatisticsMonthState extends State<StatisticsMonth>
             _isLoading
                 ? Text('No Data')
                 : ListView.builder(
-                    controller: scrollController,
+                    controller: scrollController, //scrolling ελεγχος
                     scrollDirection: Axis.vertical,
                     padding: EdgeInsets.only(top: 120, bottom: 50
                         // top: AppBar().preferredSize.height +

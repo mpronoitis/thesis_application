@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 
+//Μοντέλο Βάσης δεδομένων(περιέχονται όλα τα στοιχεία που υπάρχουν στις στήλες του πίνακα της βάσης)
 class Sleep {
   final String? went_to_bed;
   final String? woke_up;
@@ -27,7 +28,7 @@ class Sleep {
       this.minutes_deep_sleep,
       this.minutes_light_sleep,
       this.minutes_rem_sleep});
-
+//μέθοδος οπου δέχεται ενα json όρισμα και επιστρέφει μια λίστα τύπου Sleep
   factory Sleep.fromJson(Map<String, dynamic> json) {
     return Sleep(
         went_to_bed: json['went_to_bed'],
@@ -43,6 +44,6 @@ class Sleep {
         minutes_rem_sleep: json['minutes_rem_sleep']);
   }
 
-  Map<String, Object> toJson() =>
-      {'sleep_score': sleep_score, 'recording_day': recording_day};
+  // Map<String, Object> toJson() =>
+  //     {'sleep_score': sleep_score, 'recording_day': recording_day};
 }

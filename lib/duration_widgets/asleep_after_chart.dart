@@ -1,16 +1,12 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables
 
 import 'dart:async';
-import 'dart:math';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:ptixiaki_sleep_stages/screens/statistics_weekend.dart';
 import 'package:ptixiaki_sleep_stages/sleep_app_theme.dart';
-
-import '../helper/db.dart';
 import '../screens/statistics_month.dart';
-import '../statistics_month/legend_widget.dart';
 
 class AsleepAfterChart extends StatefulWidget {
   final bool type;
@@ -34,7 +30,7 @@ class AsleepAfterChartState extends State<AsleepAfterChart> {
   final Duration animDuration = const Duration(milliseconds: 250);
   List<Color> gradientColors = [
     Colors.purple,
-    Colors.purple,
+    Colors.deepPurple,
   ];
 
   int touchedIndex = -1;
@@ -46,7 +42,8 @@ class AsleepAfterChartState extends State<AsleepAfterChart> {
   Widget build(BuildContext context) {
     return AspectRatio(
       aspectRatio: 1,
-      child: widget.type
+      child: widget
+              .type //δεχεται ως ορισμα των τύπο δεδομένων και με βάση αυτό δημιουργεί το κατάλληλο διαγραμμα της οθόνης
           ? Card(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(18)),
@@ -70,110 +67,11 @@ class AsleepAfterChartState extends State<AsleepAfterChart> {
                                   fontSize: 24,
                                   fontWeight: FontWeight.bold),
                             ),
-                            // Container(
-                            //   width: 140,
-                            //   decoration: BoxDecoration(
-                            //     color: Colors.grey[200],
-                            //     borderRadius: BorderRadius.circular(16),
-                            //   ),
-                            //   child: Row(
-                            //     children: [
-                            //       Expanded(
-                            //         child: Padding(
-                            //           padding: const EdgeInsets.all(3.0),
-                            //           child: GestureDetector(
-                            //             onTap: () async {
-                            //               DateTime newStartDate = DateTime(
-                            //                   startDate.year,
-                            //                   startDate.month,
-                            //                   startDate.day - 7);
-
-                            //               DateTime newEndDate = DateTime(
-                            //                   startDate.year,
-                            //                   startDate.month,
-                            //                   startDate.day - 1);
-
-                            //               final data = await DB()
-                            //                   .getAllRecordsByWeekendTemp(
-                            //                       DateFormat('yyyy-MM-dd')
-                            //                           .format(newStartDate),
-                            //                       DateFormat('yyyy-MM-dd')
-                            //                           .format(newEndDate));
-
-                            //               // widget.onApplyClick1!(
-                            //               //     newStartDate, newEndDate, data);
-                            //             },
-                            //             child: Container(
-                            //               decoration: BoxDecoration(
-                            //                 color: Colors.white,
-                            //                 borderRadius:
-                            //                     BorderRadius.circular(16),
-                            //               ),
-                            //               padding: const EdgeInsets.symmetric(
-                            //                   vertical: 4),
-                            //               child: const Center(
-                            //                 child: Icon(
-                            //                   Icons.arrow_left,
-                            //                   size: 30,
-                            //                 ),
-                            //               ),
-                            //             ),
-                            //           ),
-                            //         ),
-                            //       ),
-                            //       Expanded(
-                            //         child: GestureDetector(
-                            //           onTap: () async {
-                            //             DateTime newStartDate = DateTime(
-                            //                 endDate.year,
-                            //                 endDate.month,
-                            //                 endDate.day + 1);
-                            //             DateTime newEndDate = DateTime(
-                            //                 endDate.year,
-                            //                 endDate.month,
-                            //                 endDate.day + 7);
-
-                            //             final data = await DB()
-                            //                 .getAllRecordsByWeekendTemp(
-                            //                     DateFormat('yyyy-MM-dd')
-                            //                         .format(newStartDate),
-                            //                     DateFormat('yyyy-MM-dd')
-                            //                         .format(newEndDate));
-
-                            //             // widget.onApplyClick2!(
-                            //             //     newStartDate, newEndDate, data);
-                            //           },
-                            //           child: Container(
-                            //             decoration: BoxDecoration(
-                            //               color: Colors.white,
-                            //               borderRadius:
-                            //                   BorderRadius.circular(16),
-                            //             ),
-                            //             padding: const EdgeInsets.symmetric(
-                            //                 vertical: 4),
-                            //             child: const Center(
-                            //               child: Icon(
-                            //                 Icons.arrow_right,
-                            //                 size: 30,
-                            //               ),
-                            //             ),
-                            //           ),
-                            //         ),
-                            //       )
-                            //     ],
-                            //   ),
-                            // )
                           ],
                         ),
                         const SizedBox(
                           height: 4,
                         ),
-                        // LegendsListWidget(
-                        //   legends: [
-                        //     Legend("Longest", Colors.deepPurple),
-                        //     // Legend("Min", Color(0xffffb3ba)),
-                        //   ],
-                        // ),
                         const SizedBox(
                           height: 38,
                         ),
@@ -193,26 +91,6 @@ class AsleepAfterChartState extends State<AsleepAfterChart> {
                       ],
                     ),
                   ),
-                  // Padding(
-                  //   padding: const EdgeInsets.all(8.0),
-                  //   child: Align(
-                  //     alignment: Alignment.topRight,
-                  //     child: IconButton(
-                  //       icon: Icon(
-                  //         isPlaying ? Icons.pause : Icons.play_arrow,
-                  //         color: const Color(0xff0f4a3c),
-                  //       ),
-                  //       onPressed: () {
-                  //         setState(() {
-                  //           isPlaying = !isPlaying;
-                  //           if (isPlaying) {
-                  //             refreshState();
-                  //           }
-                  //         });
-                  //       },
-                  //     ),
-                  //   ),
-                  // )
                 ],
               ),
             )
@@ -239,110 +117,11 @@ class AsleepAfterChartState extends State<AsleepAfterChart> {
                                   fontSize: 24,
                                   fontWeight: FontWeight.bold),
                             ),
-                            // Container(
-                            //   width: 140,
-                            //   decoration: BoxDecoration(
-                            //     color: Colors.grey[200],
-                            //     borderRadius: BorderRadius.circular(16),
-                            //   ),
-                            //   child: Row(
-                            //     children: [
-                            //       Expanded(
-                            //         child: Padding(
-                            //           padding: const EdgeInsets.all(3.0),
-                            //           child: GestureDetector(
-                            //             onTap: () async {
-                            //               DateTime newStartDate = DateTime(
-                            //                   startDate.year,
-                            //                   startDate.month,
-                            //                   startDate.day - 7);
-
-                            //               DateTime newEndDate = DateTime(
-                            //                   startDate.year,
-                            //                   startDate.month,
-                            //                   startDate.day - 1);
-
-                            //               final data = await DB()
-                            //                   .getAllRecordsByWeekendTemp(
-                            //                       DateFormat('yyyy-MM-dd')
-                            //                           .format(newStartDate),
-                            //                       DateFormat('yyyy-MM-dd')
-                            //                           .format(newEndDate));
-
-                            //               // widget.onApplyClick1!(
-                            //               //     newStartDate, newEndDate, data);
-                            //             },
-                            //             child: Container(
-                            //               decoration: BoxDecoration(
-                            //                 color: Colors.white,
-                            //                 borderRadius:
-                            //                     BorderRadius.circular(16),
-                            //               ),
-                            //               padding: const EdgeInsets.symmetric(
-                            //                   vertical: 4),
-                            //               child: const Center(
-                            //                 child: Icon(
-                            //                   Icons.arrow_left,
-                            //                   size: 30,
-                            //                 ),
-                            //               ),
-                            //             ),
-                            //           ),
-                            //         ),
-                            //       ),
-                            //       Expanded(
-                            //         child: GestureDetector(
-                            //           onTap: () async {
-                            //             DateTime newStartDate = DateTime(
-                            //                 endDate.year,
-                            //                 endDate.month,
-                            //                 endDate.day + 1);
-                            //             DateTime newEndDate = DateTime(
-                            //                 endDate.year,
-                            //                 endDate.month,
-                            //                 endDate.day + 7);
-
-                            //             final data = await DB()
-                            //                 .getAllRecordsByWeekendTemp(
-                            //                     DateFormat('yyyy-MM-dd')
-                            //                         .format(newStartDate),
-                            //                     DateFormat('yyyy-MM-dd')
-                            //                         .format(newEndDate));
-
-                            //             // widget.onApplyClick2!(
-                            //             //     newStartDate, newEndDate, data);
-                            //           },
-                            //           child: Container(
-                            //             decoration: BoxDecoration(
-                            //               color: Colors.white,
-                            //               borderRadius:
-                            //                   BorderRadius.circular(16),
-                            //             ),
-                            //             padding: const EdgeInsets.symmetric(
-                            //                 vertical: 4),
-                            //             child: const Center(
-                            //               child: Icon(
-                            //                 Icons.arrow_right,
-                            //                 size: 30,
-                            //               ),
-                            //             ),
-                            //           ),
-                            //         ),
-                            //       )
-                            //     ],
-                            //   ),
-                            // )
                           ],
                         ),
                         const SizedBox(
                           height: 4,
                         ),
-                        // LegendsListWidget(
-                        //   legends: [
-                        //     Legend("Longest", Colors.deepPurple),
-                        //     // Legend("Min", Color(0xffffb3ba)),
-                        //   ],
-                        // ),
                         const SizedBox(
                           height: 38,
                         ),
@@ -362,26 +141,6 @@ class AsleepAfterChartState extends State<AsleepAfterChart> {
                       ],
                     ),
                   ),
-                  // Padding(
-                  //   padding: const EdgeInsets.all(8.0),
-                  //   child: Align(
-                  //     alignment: Alignment.topRight,
-                  //     child: IconButton(
-                  //       icon: Icon(
-                  //         isPlaying ? Icons.pause : Icons.play_arrow,
-                  //         color: const Color(0xff0f4a3c),
-                  //       ),
-                  //       onPressed: () {
-                  //         setState(() {
-                  //           isPlaying = !isPlaying;
-                  //           if (isPlaying) {
-                  //             refreshState();
-                  //           }
-                  //         });
-                  //       },
-                  //     ),
-                  //   ),
-                  // )
                 ],
               ),
             ),
@@ -623,6 +382,7 @@ class AsleepAfterChartState extends State<AsleepAfterChart> {
       });
 
   BarChartData mainBarData() {
+    //εβδομαδίαια δεδομένα κατηγορίας asleep after
     return BarChartData(
       barTouchData: BarTouchData(
         touchTooltipData: BarTouchTooltipData(

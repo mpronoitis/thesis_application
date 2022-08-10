@@ -1,5 +1,6 @@
 import 'package:ptixiaki_sleep_stages/screens/first_screen.dart';
 
+//Μοντέλο καρτών sleepstages αρχικής οθόνης
 class MealsListData {
   String? imagePath;
   String? titleTxt;

@@ -3,20 +3,22 @@
 import 'package:intl/intl.dart';
 import 'package:sqflite/sqflite.dart' as sql;
 import 'package:path/path.dart';
-
 import '../models/sleep.dart';
 
+//Κλάση για την βάση της εφαρμογής
 class DB {
   static Future<sql.Database> my_database() async {
-    var databasesPath = await sql.getDatabasesPath();
-    var dbName = 'usab.db';
-    var path = join(databasesPath, dbName);
+    var databasesPath = await sql
+        .getDatabasesPath(); //παίρνουμε το τοπικό μονοπάτι της συσκευής
+    var dbName = 'theis.db'; //schema name
+    var path = join(databasesPath, dbName); //ένωση μονοπατιού συσκευής με βάση
     return sql.openDatabase(path, version: 1,
         onCreate: (sql.Database database, int version) async {
-      await createTable(database);
+      await createTable(database); //δμιουργία πίνακα
     });
   }
 
+//πεδία πίνακα τα οποία χρειαζόαμστε για την κατάλληλη οπτικοποίηση της πληροφορίας
   static Future<void> createTable(sql.Database database) async {
     await database.execute("""Create TABLE sleep(
       went_to_bed TEXT,
@@ -34,6 +36,7 @@ class DB {
   }
 
   Future<void> insertDymmy() async {
+    //μέθοδος που καλείται στην main για την εισαγωγή των dummy δεδομένων στην βάση
     final db = await DB.my_database();
     String sql = '''
       INSERT INTO sleep (
@@ -51,6 +54,7 @@ class DB {
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 ''';
     List<Map> data = [
+      //dummy δεδομένα
       {
         "went_to_bed": '22:57',
         "woke_up": '07:30',
@@ -474,28 +478,27 @@ class DB {
 
   Future<List<Sleep>> getHomeInfo(DateTime dateTime) async {
     //δεδομενα αρχικης σελιδας με βαση το τωρινο DateTime
-    final db = await DB.my_database();
+    final db =
+        await DB.my_database(); //παίρνουμε το Path που βρίσκεται η βάση μας
     final date = DateFormat('yyyy-MM-dd').format(dateTime);
     final List<Map<String, dynamic>> sleep =
         await db.rawQuery('SELECT * from sleep where recording_day=?', [date]);
-
+    //κανουμε select query  ολα τα δεδομένα με βάση το dateTime
     return sleep.map((sleep) => Sleep.fromJson(sleep)).toList();
+    //επιστροφή λίστας
   }
 
+//παίρνουμε τα δεδομένα μιας εβδομάδας(ανάλογα των 7 ημερών που θα επιλέξουμε)
   Future<List<Sleep>> getAllRecordsByWeekend(
       String startDate, String endDate) async {
     final db = await DB.my_database();
 
-    // final List<Map<String, dynamic>> recordDay = await db.rawQuery(
-    //     'SELECT * FROM sleep WHERE recording_day=?',
-    //     ['2022-04-16 00:00:00.000']);
     final List<Map<String, dynamic>> recordDay = await db.rawQuery(
       'SELECT * FROM sleep WHERE recording_day>=? AND recording_day<=?',
       [startDate, endDate],
     );
 
     return List.generate(
-        // var date = DateTime.parse(json['dateTime']);
         recordDay.length,
         (index) => Sleep(
             went_to_bed: recordDay[index]['went_to_bed'],
@@ -521,7 +524,6 @@ class DB {
     );
 
     return List.generate(
-        // var date = DateTime.parse(json['dateTime']);
         recordDay.length,
         (index) => Sleep(
             went_to_bed: recordDay[index]['went_to_bed'],
@@ -541,16 +543,12 @@ class DB {
       String startDate, String endDate) async {
     final db = await DB.my_database();
 
-    // final List<Map<String, dynamic>> recordDay = await db.rawQuery(
-    //     'SELECT * FROM sleep WHERE recording_day=?',
-    //     ['2022-04-16 00:00:00.000']);
     final List<Map<String, dynamic>> recordDay = await db.rawQuery(
       'SELECT * FROM sleep WHERE recording_day>=? AND recording_day<=?',
       [startDate, endDate],
     );
 
     return List.generate(
-        // var date = DateTime.parse(json['dateTime']);
         recordDay.length,
         (index) => Sleep(
             went_to_bed: recordDay[index]['went_to_bed'],
@@ -569,16 +567,12 @@ class DB {
   Future<List<Sleep>> getAllRecordsBySpesificDayy() async {
     final db = await DB.my_database();
 
-    // final List<Map<String, dynamic>> recordDay = await db.rawQuery(
-    //     'SELECT * FROM sleep WHERE recording_day=?',
-    //     ['2022-04-16 00:00:00.000']);
     final List<Map<String, dynamic>> recordDay = await db.rawQuery(
       'SELECT * FROM sleep WHERE recording_day>=?',
       ['2022-04-18'],
     );
 
     return List.generate(
-        // var date = DateTime.parse(json['dateTime']);
         recordDay.length,
         (index) => Sleep(
             went_to_bed: recordDay[index]['went_to_bed'],

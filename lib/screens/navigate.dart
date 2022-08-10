@@ -5,6 +5,7 @@ import 'package:ptixiaki_sleep_stages/screens/statistics.dart';
 import 'package:ptixiaki_sleep_stages/screens/statistics_month.dart';
 import 'package:ptixiaki_sleep_stages/screens/statistics_weekend.dart';
 
+//Δεύτερη οθόνη εφαρμογής η οποία αποτελείται απο 3 επιμέρους
 class Navigate extends StatefulWidget {
   final AnimationController? animationController;
   Navigate({Key? key, this.animationController}) : super(key: key);
@@ -14,11 +15,14 @@ class Navigate extends StatefulWidget {
 }
 
 class _NavigateState extends State<Navigate> with TickerProviderStateMixin {
+  //αρχικοποιήσεις
   final screens = [];
   int showDialog = 0;
   int _currentIndex = 0;
+
   @override
   void initState() {
+    //δημιουργία οθονών πριν τρέξει η main
     super.initState();
     screens.add(StatisticsPage(
       animationController: widget.animationController,
@@ -39,12 +43,14 @@ class _NavigateState extends State<Navigate> with TickerProviderStateMixin {
       backgroundColor: Colors.transparent,
       body: screens[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
+        //τοποθέτητη κάτω μενού πλοήγησης(αλλαγή ανάμεσα σε στατιστικά ημέρας,εβδομάδα,μήνα)
         selectedItemColor: Colors.purple,
         currentIndex: _currentIndex,
         onTap: (index) {
           setState(() {
+            //redraw την εφαρμογή ανάλογα την οθόνη που θα επιλέξουμε
             _currentIndex = index;
-            showDialog == 0
+            showDialog == 0 //θέλουμε μονο στην αρχη να εμφανίζεται το μήνυμα
                 ? ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text(
@@ -58,6 +64,7 @@ class _NavigateState extends State<Navigate> with TickerProviderStateMixin {
           });
         },
         items: [
+          //tabs
           BottomNavigationBarItem(
               icon: Icon(
                 Icons.space_dashboard_rounded,

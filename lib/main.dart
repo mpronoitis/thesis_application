@@ -9,9 +9,10 @@ import 'package:ptixiaki_sleep_stages/sleep_stages_home_screen.dart';
 import 'helper/db.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  // await DB().insertDymmy();
+  WidgetsFlutterBinding.ensureInitialized(); //αρχικοποίηση widgets
+  await DB().insertDymmy(); //εισαγωγή δεδομένων στην βαση
   await SystemChrome.setPreferredOrientations(<DeviceOrientation>[
+    //ρυθμιση για portrait orientation συσκευής
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown
   ]).then((_) => runApp(MyApp()));
@@ -37,7 +38,8 @@ class MyApp extends StatelessWidget {
           textTheme: SleepAppTheme.textTheme,
           platform: TargetPlatform.iOS,
         ),
-        home: SleepHomeScreen());
+        home: SleepHomeScreen()); //
+    //αφου εχουν γινει οι αρχικοποιήσεις δημιουργία κεντρικής οθόνης εφαρμογής
   }
 }
 

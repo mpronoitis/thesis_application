@@ -14,23 +14,28 @@ class SleepHomeScreen extends StatefulWidget {
 
 class _SleepHomeScreenState extends State<SleepHomeScreen>
     with TickerProviderStateMixin {
+  //Interface TickerProviderStateMixin για υποστηριξη animation
+  // Αρχικοποιήσεις
   AnimationController? animationController;
   int _currentIndex = 0;
   final screens = [];
   int showDialog = 0;
-
+//Μέθοδος initState τρέχει πριν την δημιουργία των widgets
+//δημιουργία οθονών αρχικής οθόνης και συγχρονισμός της παρούσας οθόνης με τον animationcontroller
   @override
   void initState() {
     animationController = AnimationController(
         duration: const Duration(milliseconds: 600), vsync: this);
 
     screens.add(FirstScreen(
+      //1o tab
       animationController: animationController,
     ));
     screens.add(Navigate(
+      //2o tab
       animationController: animationController,
     ));
-    screens.add(Profile());
+    screens.add(Profile()); //3o tab
 
     super.initState();
   }
@@ -47,11 +52,12 @@ class _SleepHomeScreenState extends State<SleepHomeScreen>
       color: SleepAppTheme.background,
       child: Scaffold(
         body: FutureBuilder<bool>(
-          future: getData(),
+          future: getData(), //δημιουργία καθυστέρησης για πιο smooth animation
           builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
             if (!snapshot.hasData) {
               return const SizedBox();
             } else {
+              //αφου ολοκληρωθεί το amimation δημιουργία οθόνης
               return Stack(
                 children: <Widget>[
                   screens[_currentIndex],
@@ -61,6 +67,7 @@ class _SleepHomeScreenState extends State<SleepHomeScreen>
           },
         ),
         bottomNavigationBar: Container(
+          //κάτω μενού πλοήγησης
           decoration: BoxDecoration(
             color: SleepAppTheme.white,
             boxShadow: [
@@ -75,17 +82,13 @@ class _SleepHomeScreenState extends State<SleepHomeScreen>
               padding:
                   const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
               child: GNav(
-                // rippleColor: Colors.grey[800], // tab button ripple color when pressed
-                // hoverColor: Colors.grey[700], // tab button hover color
                 haptic: true, // haptic feedback
                 tabBorderRadius: 15,
                 tabActiveBorder: Border.all(
                     color: Colors.black, width: 1), // tab button border
                 tabBorder: Border.all(
                     color: Colors.grey, width: 1), // tab button border
-                // tabShadow: [
-                //   BoxShadow(color: Colors.grey.withOpacity(0.5), blurRadius: 8)
-                // ], // tab button shadow
+
                 curve: Curves.easeOutExpo, // tab animation curves
                 duration: Duration(milliseconds: 300), // tab animation duration
                 gap: 8, // the tab button gap between icon and text
@@ -98,6 +101,7 @@ class _SleepHomeScreenState extends State<SleepHomeScreen>
                 selectedIndex: _currentIndex,
                 onTabChange: (index) {
                   setState(() {
+                    // μέθοδος που καλείται κάθε φορα που αλληλοεπιδρούμαι με το κάτω μενού πλοήγησης(διαχειρίζει το state της εφαρμογής)
                     _currentIndex = index;
 
                     showDialog == 0
@@ -114,6 +118,7 @@ class _SleepHomeScreenState extends State<SleepHomeScreen>
                   });
                 },
                 tabs: [
+                  //διαθέσιμα tabs μενού
                   GButton(
                     icon: Icons.home,
                     text: 'Home',
@@ -131,80 +136,12 @@ class _SleepHomeScreenState extends State<SleepHomeScreen>
             ),
           ),
         ),
-        // bottomNavigationBar: BottomNavigationBar(
-        //   type: BottomNavigationBarType.fixed,
-        //   backgroundColor: Colors.deepPurple,
-        //   selectedItemColor: Colors.white,
-        //   unselectedItemColor: Colors.white70,
-        //   iconSize: 20,
-        //   selectedFontSize: 16,
-        //   unselectedFontSize: 16,
-        //   currentIndex: _currentIndex,
-        //   onTap: (index) {
-        //     setState(() {
-        //       _currentIndex = index;
-        //     });
-        //   },
-        //   items: [
-        //     BottomNavigationBarItem(
-        //         icon: Icon(
-        //           Icons.home,
-        //         ),
-        //         label: 'Home',
-        //         backgroundColor: Colors.red),
-        //     BottomNavigationBarItem(
-        //       icon: Icon(
-        //         Icons.stacked_line_chart,
-        //       ),
-        //       label: 'Statistics',
-        //       backgroundColor: Colors.blue,
-        //     ),
-        //     // BottomNavigationBarItem(
-        //     //     icon: Icon(
-        //     //       Icons.person,
-        //     //     ),
-        //     //     label: 'Profile'),
-        //   ],
-        // ),
-        // bottomNavigationBar: NavigationBarTheme(
-        //   data: NavigationBarThemeData(
-        //       indicatorColor: Colors.purple[200],
-        //       labelTextStyle: MaterialStateProperty.all(
-        //         TextStyle(
-        //           fontSize: 14,
-        //           fontWeight: FontWeight.w500,
-        //         ),
-        //       )),
-        //   child: NavigationBar(
-        //     height: 60,
-        //     selectedIndex: _currentIndex,
-        //     onDestinationSelected: (index) => setState(() {
-        //       _currentIndex = index;
-        //     }),
-        //     backgroundColor: Colors.white,
-        //     destinations: [
-        //       NavigationDestination(
-        //         icon: Icon(
-        //           Icons.home,
-        //           size: 30,
-        //         ),
-        //         label: 'Home',
-        //       ),
-        //       NavigationDestination(
-        //         icon: Icon(
-        //           Icons.stacked_line_chart,
-        //           size: 30,
-        //         ),
-        //         label: 'Statistics',
-        //       )
-        //     ],
-        //   ),
-        // ),
       ),
     );
   }
 
   Future<bool> getData() async {
+    // συνάρτηση για δημιουργία delay
     await Future<dynamic>.delayed(const Duration(milliseconds: 200));
     return true;
   }

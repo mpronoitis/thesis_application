@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+//Παράμετροι εφαρμογής (χρώματα,μέγεθος γραμματοσειράς)
 class SleepAppTheme {
   SleepAppTheme._();
   static const Color nearlyWhite = Color(0xFFFAFAFA);
