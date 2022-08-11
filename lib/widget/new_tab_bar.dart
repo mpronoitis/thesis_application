@@ -7,6 +7,7 @@ import 'package:ptixiaki_sleep_stages/duration_widgets/in_bed_chart.dart';
 import 'package:ptixiaki_sleep_stages/sleep_app_theme.dart';
 import 'package:ptixiaki_sleep_stages/statistics_weekend/sleep_quality_chart.dart';
 
+//Widget για την δημιουργία των tabs των κατηγοριών
 class NewTabBar extends StatefulWidget {
   final bool type;
   const NewTabBar({Key? key, required this.type}) : super(key: key);
@@ -42,6 +43,7 @@ class _NewTabBarState extends State<NewTabBar> with TickerProviderStateMixin {
                 radius: 4,
               ),
               tabs: [
+                //κατηγορίες
                 Tab(text: "Asleep"),
                 Tab(text: "Asleep after"),
                 Tab(text: "Awake"),
@@ -55,6 +57,7 @@ class _NewTabBarState extends State<NewTabBar> with TickerProviderStateMixin {
           child: TabBarView(
             controller: _tabController,
             children: [
+              //επειδή και στα στατιστική εβδομάδας και τα στατιστικά μήνα έχουν τα ίδια tabs με βάση των τύπο οθόνης δημιουργούμαι το διάγραμμα
               InBedChart(
                 type: widget.type,
               ),
@@ -72,6 +75,7 @@ class _NewTabBarState extends State<NewTabBar> with TickerProviderStateMixin {
   }
 }
 
+//δημιουργία κύκλου που λειτουργέι σαν indicator που δείχνει κάθε φορα στην κατηγορία που βρίσκεται ο χρήστης
 class CircleTabBarIndicator extends Decoration {
   final Color color;
   double radius;
@@ -84,6 +88,7 @@ class CircleTabBarIndicator extends Decoration {
   }
 }
 
+//χρήση Painter για draw του indicator
 class _CirclePainter extends BoxPainter {
   final Color color;
   double radius;

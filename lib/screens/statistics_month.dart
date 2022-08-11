@@ -83,7 +83,7 @@ class _StatisticsMonthState extends State<StatisticsMonth>
 
   void getData() async {
     final data = await DB().getAllRecordsByMonth(
-        //κάνουμε κλήση της συνάρτησης της βάσης όπου παίνρουμε τα δεδομένα για 30 ημέρες
+        //κάνουμε κλήση της συνάρτησης της βάσης όπου παίρνουμε τα δεδομένα για 30 ημέρες
         DateFormat('yyyy-MM-dd').format(startDate),
         DateFormat('yyyy-MM-dd').format(endDate));
     setState(() {
@@ -187,18 +187,14 @@ class _StatisticsMonthState extends State<StatisticsMonth>
                 : ListView.builder(
                     controller: scrollController, //scrolling ελεγχος
                     scrollDirection: Axis.vertical,
-                    padding: EdgeInsets.only(top: 120, bottom: 50
-                        // top: AppBar().preferredSize.height +
-                        //     MediaQuery.of(context).padding.top +
-                        //     24,
-                        // bottom: 62 + MediaQuery.of(context).padding.bottom,
-                        ),
+                    padding: EdgeInsets.only(top: 120, bottom: 50),
                     itemCount: listMonth.length,
                     itemBuilder: (BuildContext context, int index) {
                       return listMonth[index];
                     },
                   ),
             AppBarWidget(
+              // δημιουργία app bar οθόνης
               animationController: widget.animationController,
               topBarAnimation: topBarAnimation,
               topBarOpacity: topBarOpacity,
@@ -208,6 +204,7 @@ class _StatisticsMonthState extends State<StatisticsMonth>
               startDate: startDate,
               endDate: endDate,
               onTap: () async {
+                //listener για το άνοιγμα του ημερολογίου
                 FocusScope.of(context).requestFocus(FocusNode());
 
                 showDemoDialog(context: context);
@@ -220,15 +217,14 @@ class _StatisticsMonthState extends State<StatisticsMonth>
   }
 
   void showDemoDialog({BuildContext? context}) {
+    //συνάρητησ για την δημιουργία του ημερολογίου
     showDialog<dynamic>(
       context: context!,
       builder: (BuildContext context) => CalendarPopupView(
         barrierDismissible: true,
-        // minimumDate: DateTime(2022, 4, 12),
-        //  maximumDate: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day + 10),
-        // initialEndDate: DateTime(2022, 4, 12),
-        // initialStartDate: DateTime(2022, 4, 12),
-        onApplyClick: (DateTime startData, DateTime endData,
+        onApplyClick: (DateTime startData,
+            DateTime
+                endData, //callback function που αλλαζει τα δεδομένα ανάλογα τις ημέρες που θα επιλέξει ο χρήστης
             BuildContext newContext) async {
           tryingMonth = [];
           tryingMonth = await DB().getAllRecordsByMonth(
@@ -239,7 +235,7 @@ class _StatisticsMonthState extends State<StatisticsMonth>
             endDate = endData;
 
             sleepMonthStatistics = [];
-            sleepMonthStatistics = [...tryingMonth];
+            sleepMonthStatistics = [...tryingMonth]; //ανανέωση λίστας δεδομένων
             listMonth = [];
             print(category);
             if (category == CategoryType.sleep_stages) {
@@ -250,11 +246,6 @@ class _StatisticsMonthState extends State<StatisticsMonth>
               addItemsDurationCategory();
             }
             Navigator.pop(context);
-            // } else if (category == CategoryType.time_in_bed) {
-            //   addTimeInBed();
-            // }
-
-            // category == CategoryType.sleep_stages ? addWidgets() : addAnother();
           });
         },
         onCancelClick: () {},
@@ -263,9 +254,3 @@ class _StatisticsMonthState extends State<StatisticsMonth>
     );
   }
 }
-
-final popupOptions = <String>[
-  'Weekly',
-  'Monthly',
-  'Yearly',
-];

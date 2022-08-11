@@ -514,6 +514,7 @@ class DB {
             minutes_rem_sleep: recordDay[index]['minutes_rem_sleep']));
   }
 
+//συνάρτηση που κάνει select τα δεδομένα για 30 ημέρες για την οθόνη των στατιστικών μήνα
   Future<List<Sleep>> getAllRecordsByMonth(
       String startDate, String endDate) async {
     final db = await DB.my_database();
@@ -564,6 +565,7 @@ class DB {
             minutes_rem_sleep: recordDay[index]['minutes_rem_sleep']));
   }
 
+//συνάρτηση που παίρνει τα δεδομένα για ύπνου για μια ημέρα
   Future<List<Sleep>> getAllRecordsBySpesificDayy() async {
     final db = await DB.my_database();
 

@@ -3,16 +3,18 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:ptixiaki_sleep_stages/helper/db.dart';
-import 'package:ptixiaki_sleep_stages/statistics_weekend/legend_info.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import '../models/sleep.dart';
 import '../screens/statistics_weekend.dart';
 import '../sleep_app_theme.dart';
+import 'legend_info.dart';
 
+//Διάγραμμα sleep stages οθόνης στατιστικών εβδομάδας
 class WeekendChart extends StatefulWidget {
   const WeekendChart({Key? key, this.onApplyClick1, this.onApplyClick2})
       : super(key: key);
-  final Function(DateTime, DateTime, List<Sleep>)? onApplyClick1;
+  final Function(DateTime, DateTime, List<Sleep>)?
+      onApplyClick1; //δέχεται ως όρισμα δυο callback functions
   final Function(DateTime, DateTime, List<Sleep>)? onApplyClick2;
 
   @override
@@ -20,19 +22,21 @@ class WeekendChart extends StatefulWidget {
 }
 
 class _WeekendChartState extends State<WeekendChart> {
+  //Αρχικοποιήσεις
   List<_ChartData> chartData = [];
   TooltipBehavior? _tooltipBehavior;
   TrackballBehavior? _trackballBehavior;
+  //Τέλος αρχικοποιήσεων
   @override
   void initState() {
-    print(sleepWeekendStatistics[0].minutes_deep_sleep);
     _tooltipBehavior = TooltipBehavior(
+        //αρχικοποιήση tooltip
         enable: true,
         textStyle: TextStyle(
           fontSize: 18,
         ));
     super.initState();
-    chartData = <_ChartData>[];
+    chartData = <_ChartData>[]; //δεδομένα διαγράμματος
     for (int i = 0; i < sleepWeekendStatistics.length; i++) {
       chartData.add(_ChartData(
         DateFormat.E()
@@ -48,6 +52,7 @@ class _WeekendChartState extends State<WeekendChart> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
+        //μορφή κάρτας πάνω στην οποία μπαίνει το γράφημα
         color: SleepAppTheme.white,
         borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(8.0),
@@ -95,6 +100,7 @@ class _WeekendChartState extends State<WeekendChart> {
                           padding: const EdgeInsets.all(3.0),
                           child: GestureDetector(
                             onTap: () async {
+                              //listener όταν ο χρήστης πατάει το αριστερό βελάκι στο γράφημα
                               DateTime newStartDate = DateTime(startDate.year,
                                   startDate.month, startDate.day - 7);
 
@@ -109,7 +115,10 @@ class _WeekendChartState extends State<WeekendChart> {
                                           .format(newEndDate));
 
                               widget.onApplyClick1!(
-                                  newStartDate, newEndDate, data);
+                                  //callback function που αλλάζει τα δεδομένα
+                                  newStartDate,
+                                  newEndDate,
+                                  data);
                             },
                             child: Container(
                               decoration: BoxDecoration(
@@ -130,6 +139,7 @@ class _WeekendChartState extends State<WeekendChart> {
                       Expanded(
                         child: GestureDetector(
                           onTap: () async {
+                            //listener όταν ο χρήστης πατάει το δεξί βελάκι στο γράφημα
                             DateTime newStartDate = DateTime(
                                 endDate.year, endDate.month, endDate.day + 1);
                             DateTime newEndDate = DateTime(
@@ -140,7 +150,10 @@ class _WeekendChartState extends State<WeekendChart> {
                                 DateFormat('yyyy-MM-dd').format(newEndDate));
 
                             widget.onApplyClick2!(
-                                newStartDate, newEndDate, data);
+                                //callback function που ανανεώσει την main Με τα νέα δεδομένα
+                                newStartDate,
+                                newEndDate,
+                                data);
                           },
                           child: Container(
                             decoration: BoxDecoration(
@@ -168,26 +181,20 @@ class _WeekendChartState extends State<WeekendChart> {
               SizedBox(
                 width: 15.0,
               ),
-              LegendInfo(),
+              LegendInfo(), //widget για τα legends sleep stages
             ],
           ),
-          _buildStackedBar100Chart()
+          _buildStackedBar100Chart() //δημιουργία διαγράμματος
         ],
       ),
-      // SizedBox(height: 40, child: LegendTitles()),
     );
   }
 
   SfCartesianChart _buildStackedBar100Chart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
-      // title: ChartTitle(
-      //   text: 'Sleep Statistics By Day',
-      //   textStyle: TextStyle(
-      //     fontSize: 22,
-      //   ),
-      // ),
       onTooltipRender: (TooltipArgs args) {
+        //καθορίζει την μορφή του tooltip όταν πατάμε πάνω στην στήλη
         List<dynamic>? chartdata = args.dataPoints;
 
         switch (args.pointIndex) {
@@ -401,7 +408,10 @@ class _WeekendChartState extends State<WeekendChart> {
         }
       },
       primaryXAxis: CategoryAxis(
-          axisLine: const AxisLine(width: 0),
+          //μορφή χ άξονα
+          axisLine: const AxisLine(
+              width:
+                  0), //τα width είναι μηδεν γιατί δεν θέλουμε να φαινονται οι γραμμες
           majorGridLines: const MajorGridLines(width: 0),
           majorTickLines: const MajorTickLines(
             size: 0,
@@ -413,22 +423,25 @@ class _WeekendChartState extends State<WeekendChart> {
             fontSize: 16,
           )),
       primaryYAxis: NumericAxis(
-          isVisible: false,
+          //κάθετος άξονας y
+          isVisible: false, //δεν θέλουμαι να εμφανίζεται
           axisLine: const AxisLine(width: 0),
-          interval: 80,
+          interval: 80, //interval για τις τιμές
           labelFormat: '{value}min',
           majorTickLines: const MajorTickLines(size: 0),
           minimum: 0,
           maximum: 480),
       series: _getStackedBarSeries(),
-      tooltipBehavior: _tooltipBehavior,
+      tooltipBehavior: _tooltipBehavior, //κάνουμε set το tooltip
     );
   }
 
   List<ChartSeries<Sleep, String>> _getStackedBarSeries() {
+    //δεδομένα διαγράμματος
     return <ChartSeries<Sleep, String>>[
       StackedColumnSeries<Sleep, String>(
-        dataSource: sleepWeekendStatistics,
+        dataSource:
+            sleepWeekendStatistics, //του δίνουμε ως source την λίστα που φτιάξαμε
         xValueMapper: (Sleep sales, _) =>
             ' ${DateFormat.d().format(DateTime.parse(sales.recording_day))}' +
             '${'/'}' +
@@ -479,6 +492,7 @@ class _WeekendChartState extends State<WeekendChart> {
 }
 
 class _ChartData {
+  //μοντέλο δεδομένων
   _ChartData(this.x, this.light, this.deep, this.rem);
   final String x;
   final num deep;

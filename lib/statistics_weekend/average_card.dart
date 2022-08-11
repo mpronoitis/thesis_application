@@ -13,13 +13,8 @@ class AverageCard extends StatefulWidget {
   State<AverageCard> createState() => _AverageCardState();
 }
 
+//Widget κάρτας μέσου όρου κι εβδομαδιαίας σύστασης
 class _AverageCardState extends State<AverageCard> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -143,117 +138,6 @@ class _AverageCardState extends State<AverageCard> {
                   color: SleepAppTheme.darkText,
                 ),
               ),
-              // child: Row(
-              //   children: <Widget>[
-              //     Expanded(
-              //       child: Column(
-              //         mainAxisAlignment: MainAxisAlignment.center,
-              //         crossAxisAlignment: CrossAxisAlignment.start,
-              //         children: <Widget>[
-              //           Text(
-              //             '185 cm',
-              //             textAlign: TextAlign.center,
-              //             style: TextStyle(
-              //               fontFamily: SleepAppTheme.fontName,
-              //               fontWeight: FontWeight.w500,
-              //               fontSize: 16,
-              //               letterSpacing: -0.2,
-              //               color: SleepAppTheme.darkText,
-              //             ),
-              //           ),
-              //           Padding(
-              //             padding: const EdgeInsets.only(top: 6),
-              //             child: Text(
-              //               'Height',
-              //               textAlign: TextAlign.center,
-              //               style: TextStyle(
-              //                 fontFamily: SleepAppTheme.fontName,
-              //                 fontWeight: FontWeight.w600,
-              //                 fontSize: 12,
-              //                 color: SleepAppTheme.grey.withOpacity(0.5),
-              //               ),
-              //             ),
-              //           ),
-              //         ],
-              //       ),
-              //     ),
-              //     Expanded(
-              //       child: Row(
-              //         mainAxisAlignment: MainAxisAlignment.center,
-              //         crossAxisAlignment: CrossAxisAlignment.center,
-              //         children: <Widget>[
-              //           Column(
-              //             mainAxisAlignment: MainAxisAlignment.center,
-              //             crossAxisAlignment: CrossAxisAlignment.center,
-              //             children: <Widget>[
-              //               Text(
-              //                 '27.3 BMI',
-              //                 textAlign: TextAlign.center,
-              //                 style: TextStyle(
-              //                   fontFamily: SleepAppTheme.fontName,
-              //                   fontWeight: FontWeight.w500,
-              //                   fontSize: 16,
-              //                   letterSpacing: -0.2,
-              //                   color: SleepAppTheme.darkText,
-              //                 ),
-              //               ),
-              //               Padding(
-              //                 padding: const EdgeInsets.only(top: 6),
-              //                 child: Text(
-              //                   'Overweight',
-              //                   textAlign: TextAlign.center,
-              //                   style: TextStyle(
-              //                     fontFamily: SleepAppTheme.fontName,
-              //                     fontWeight: FontWeight.w600,
-              //                     fontSize: 12,
-              //                     color: SleepAppTheme.grey.withOpacity(0.5),
-              //                   ),
-              //                 ),
-              //               ),
-              //             ],
-              //           ),
-              //         ],
-              //       ),
-              //     ),
-              //     Expanded(
-              //       child: Row(
-              //         mainAxisAlignment: MainAxisAlignment.end,
-              //         crossAxisAlignment: CrossAxisAlignment.center,
-              //         children: <Widget>[
-              //           Column(
-              //             mainAxisAlignment: MainAxisAlignment.center,
-              //             crossAxisAlignment: CrossAxisAlignment.end,
-              //             children: <Widget>[
-              //               Text(
-              //                 '20%',
-              //                 style: TextStyle(
-              //                   fontFamily: SleepAppTheme.fontName,
-              //                   fontWeight: FontWeight.w500,
-              //                   fontSize: 16,
-              //                   letterSpacing: -0.2,
-              //                   color: SleepAppTheme.darkText,
-              //                 ),
-              //               ),
-              //               Padding(
-              //                 padding: const EdgeInsets.only(top: 6),
-              //                 child: Text(
-              //                   'Body fat',
-              //                   textAlign: TextAlign.center,
-              //                   style: TextStyle(
-              //                     fontFamily: SleepAppTheme.fontName,
-              //                     fontWeight: FontWeight.w600,
-              //                     fontSize: 12,
-              //                     color: SleepAppTheme.grey.withOpacity(0.5),
-              //                   ),
-              //                 ),
-              //               ),
-              //             ],
-              //           ),
-              //         ],
-              //       ),
-              //     )
-              //   ],
-              // ),
             )
           ],
         ),
@@ -263,6 +147,7 @@ class _AverageCardState extends State<AverageCard> {
 }
 
 String getAverage() {
+  //εύρεση μέσου όρου ποιότητας ύπνου
   double average = 0.0;
   int finalAverage = 0;
   for (int i = 0; i < sleepWeekendStatistics.length; i++) {

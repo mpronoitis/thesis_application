@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../sleep_app_theme.dart';
 
+//Legend γραφήματος στατιστικών μήνα
 class LegendWidget extends StatelessWidget {
   final String name;
   final Color color;

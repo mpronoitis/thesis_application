@@ -5,6 +5,7 @@ import 'package:ptixiaki_sleep_stages/screens/statistics_month.dart';
 
 import '../sleep_app_theme.dart';
 
+//Widget για την δημιουργία των αρχικών καρτών(max,min sleep quality)
 class MaxSleepQuality extends StatelessWidget {
   const MaxSleepQuality({Key? key}) : super(key: key);
   static const Color _primaryColor = Colors.purple;
@@ -15,14 +16,17 @@ class MaxSleepQuality extends StatelessWidget {
     return Column(
       children: [
         _reportCard(
+          //max sleep quality card
           isMax: true,
           title: 'Maximum Sleep Quality',
           progress: findMaxSleepQuality(),
         ),
         SizedBox(
+          //απόσταση μεταξύ τους
           height: 16,
         ),
         _reportCard(
+          //min sleep quality card
           isMax: false,
           title: 'Minimum Sleep Quality',
           progress: findMinSleepQuality(),
@@ -35,7 +39,9 @@ class MaxSleepQuality extends StatelessWidget {
   }
 
   Container _reportCard({
-    required bool isMax,
+    //μοντέλοκαρτών
+    required bool
+        isMax, //ο constructor δέχεται και ενα boolean για να ξέρουμε αν πρόκειται για την π΄ρωτη κάρτα
     required String title,
     required double progress,
   }) {
@@ -44,7 +50,7 @@ class MaxSleepQuality extends StatelessWidget {
       decoration: BoxDecoration(
         color: isMax ? Colors.white : _secondaryColor,
         borderRadius: BorderRadius.circular(30),
-        border: isMax
+        border: isMax //αν είναι true βάζουμε αλλο border
             ? Border.all(color: _primaryColor.withOpacity(0.1), width: 2)
             : null,
         boxShadow: isMax
@@ -65,7 +71,8 @@ class MaxSleepQuality extends StatelessWidget {
                 width: 60,
                 height: 60,
                 child: CircularProgressIndicator(
-                  value: progress,
+                  //widget για τον κυκλικό indicator
+                  value: progress, //τιμή sleep quality
                   strokeWidth: 8,
                   backgroundColor: isMax
                       ? _primaryColor.withOpacity(0.2)

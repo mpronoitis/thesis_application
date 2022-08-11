@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 
 import '../sleep_app_theme.dart';
 
+//Widget κατηγοριών(Sleep stages,sleep quality,time in bed)
 class CategoryWidget extends StatefulWidget {
   const CategoryWidget({Key? key, this.onApplyClick}) : super(key: key);
-  final Function(CategoryType)? onApplyClick;
+  final Function(CategoryType)?
+      onApplyClick; //δέχεται ως όρισμα ενα callback για να γίνετε redraw ανάλογα την επιλεγμένη κατηγορία
 
   @override
   State<CategoryWidget> createState() => _CategoryWidgetState();
@@ -41,6 +43,7 @@ class _CategoryWidgetState extends State<CategoryWidget> {
           padding: const EdgeInsets.only(left: 16, right: 16),
           child: Row(
             children: <Widget>[
+              //δημιουργία κατηγοριών
               getButtonUI(CategoryType.sleep_stages,
                   categoryType == CategoryType.sleep_stages),
               const SizedBox(
@@ -66,6 +69,7 @@ class _CategoryWidgetState extends State<CategoryWidget> {
   Widget getButtonUI(CategoryType categoryTypeData, bool isSelected) {
     String txt = '';
     if (CategoryType.sleep_stages == categoryTypeData) {
+      //ανάλογα την κατηγορία βάζουμε τον κατάλληλο τίτλο
       txt = 'Sleep Stages';
     } else if (CategoryType.sleep_quality == categoryTypeData) {
       txt = 'Sleep Quality';
@@ -75,6 +79,7 @@ class _CategoryWidgetState extends State<CategoryWidget> {
     return Expanded(
       child: Container(
         decoration: BoxDecoration(
+            //μορφή κάρτας
             color: isSelected ? Colors.purple : SleepAppTheme.nearlyWhite,
             borderRadius: const BorderRadius.all(Radius.circular(24.0)),
             border: Border.all(color: Colors.purple)),
@@ -84,6 +89,7 @@ class _CategoryWidgetState extends State<CategoryWidget> {
             splashColor: Colors.white24,
             borderRadius: const BorderRadius.all(Radius.circular(24.0)),
             onTap: () {
+              //callback function που ενημερώνει για την επιλεγμένη κατηγορία
               widget.onApplyClick!(categoryTypeData);
 
               setState(() {

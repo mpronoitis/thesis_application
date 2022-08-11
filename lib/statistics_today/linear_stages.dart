@@ -9,6 +9,7 @@ import 'package:ptixiaki_sleep_stages/screens/statistics.dart';
 import '../main.dart';
 import '../sleep_app_theme.dart';
 
+//Widget που φτιάχνει τις μπάρες
 class LinearStages extends StatelessWidget {
   const LinearStages({Key? key}) : super(key: key);
 
@@ -52,10 +53,12 @@ class LinearStages extends StatelessWidget {
 }
 
 class LinearStage extends StatelessWidget {
-  final String title;
-  final Color color;
-  final String duration;
+  //μοντέλο μπάρας ανάλογα το στάδιο του ύπνου που δέχεται ως παράμεντρο
+  final String title; //τίτλος σταδίου
+  final Color color; //χρώμα μπάρας
+  final String duration; //πόσο διήρκησε
   const LinearStage(
+      //constructor
       {Key? key,
       required this.title,
       required this.color,
@@ -104,7 +107,9 @@ class LinearStage extends StatelessWidget {
   }
 }
 
+//συνάρτησεις που υπολογίζουν το ποσοστό του κάθε σταδίου του ύπνου
 String getConversion(double total_asleep) {
+  //μετατροπή σε string
   double current = (total_asleep) / 60;
   int hours = current.toInt();
   double minutes = total_asleep % 60;

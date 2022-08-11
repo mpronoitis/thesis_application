@@ -5,6 +5,7 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../screens/statistics.dart';
 
+//Κυκλικό γράφημα για την οπτικοποίηση του sleep score
 class SleepScoreProgress extends StatefulWidget {
   const SleepScoreProgress({Key? key}) : super(key: key);
 
@@ -21,9 +22,10 @@ class _SleepScoreProgressState extends State<SleepScoreProgress> {
   }
 
   SfCircularChart _buildElevationDoughnutChart() {
+    //δημιουργία διαγράμματος
     return SfCircularChart(
-      title:
-          ChartTitle(text: 'Sleep Score', textStyle: TextStyle(fontSize: 22)),
+      title: ChartTitle(
+          text: 'Sleep Score', textStyle: TextStyle(fontSize: 22)), //τίτλος
 
       /// It used to set the annotation on circular chart.
       annotations: <CircularChartAnnotation>[
@@ -45,7 +47,8 @@ class _SleepScoreProgressState extends State<SleepScoreProgress> {
                     color: Color.fromRGBO(0, 0, 0, 0.5), fontSize: 25)))
       ],
 
-      series: _getElevationDoughnutSeries(),
+      series:
+          _getElevationDoughnutSeries(), //τα series καθορίζουν τι δεδομένα θα έχει το διάγραμμα
     );
   }
 
@@ -72,51 +75,10 @@ class _SleepScoreProgressState extends State<SleepScoreProgress> {
 }
 
 class Dummy {
+  //constructor για την αρχικοποίηση των τιμών του διαγράμματος
   final String x;
   final double y;
   final Color? pointColor;
 
   Dummy({required this.x, required this.y, this.pointColor});
 }
-
-// class SleepScoreProgress extends StatelessWidget {
-//   const SleepScoreProgress({Key? key}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Padding(
-//       padding: EdgeInsets.only(
-//         top: 10.0,
-//       ),
-//       child: CircularPercentIndicator(
-//         radius: 120.0,
-//         lineWidth: 13.0,
-//         animation: true,
-//         percent: sleepStatistics[0].sleep_score,
-//         center: Text(
-//           '${((sleepStatistics[0].sleep_score * 100).toInt()).toString()}' +
-//               '${'%'}',
-//           style: TextStyle(
-//             fontFamily: SleepAppTheme.fontName,
-//             fontWeight: FontWeight.w500,
-//             fontSize: 24,
-//             letterSpacing: 0.5,
-//             color: SleepAppTheme.lightText,
-//           ),
-//         ),
-//         footer: Text(
-//           'Sleep Score',
-//           style: TextStyle(
-//             fontFamily: SleepAppTheme.fontName,
-//             fontWeight: FontWeight.w500,
-//             fontSize: 24,
-//             letterSpacing: 0.5,
-//             color: SleepAppTheme.lightText,
-//           ),
-//         ),
-//         circularStrokeCap: CircularStrokeCap.round,
-//         progressColor: 0.2 < 0.6 ? Colors.red : Colors.purple,
-//       ),
-//     );
-//   }
-// }

@@ -1,12 +1,11 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:ptixiaki_sleep_stages/screens/statistics_weekend.dart';
-
-import '../screens/navigate.dart';
 import '../sleep_app_theme.dart';
 
+//widget για την δημιουργία τίτλου πάνω απο την κάρτα της αρχικής οθόνης
 class TitleView extends StatelessWidget {
+  //constructor
   final String titleTxt;
   final String subTxt;
   final AnimationController? animationController;
@@ -23,9 +22,11 @@ class TitleView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
+      //AnimatedBuilder για υποστήριξη animation
       animation: animationController!,
       builder: (BuildContext context, Widget? child) {
         return FadeTransition(
+          //τύπος animation
           opacity: animation!,
           child: Transform(
             transform: Matrix4.translationValues(
@@ -51,14 +52,7 @@ class TitleView extends StatelessWidget {
                     InkWell(
                       highlightColor: Colors.transparent,
                       borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                      onTap: () async {
-                        // await Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //       builder: (context) => Navigate(
-                        //           animationController: animationController)),
-                        // );
-                      },
+                      onTap: () async {},
                       child: Padding(
                         padding: const EdgeInsets.only(left: 8),
                         child: Row(

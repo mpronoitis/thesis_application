@@ -31,15 +31,14 @@ class StatisticsWeekend extends StatefulWidget {
 
 class _StatisticsWeekendState extends State<StatisticsWeekend>
     with TickerProviderStateMixin {
+  //αρχικοποιήσεις
   Animation<double>? topBarAnimation;
-
   final ScrollController scrollController = ScrollController();
   double topBarOpacity = 0.0;
   int _currentIndex = 0;
   final screens = [];
 
   List<Widget> listViews = <Widget>[];
-
   late CategoryType category;
 //κατηγορία sleep stages
   void addWidgets() {
@@ -98,9 +97,7 @@ class _StatisticsWeekendState extends State<StatisticsWeekend>
           setState(() {
             category = categoryType;
             listViews = [];
-            // categoryType == CategoryType.sleep_stages
-            //     ? addWidgets()
-            //     : addAnother();
+
             if (categoryType == CategoryType.sleep_stages) {
               addWidgets();
             } else if (categoryType == CategoryType.sleep_quality) {
@@ -146,7 +143,7 @@ class _StatisticsWeekendState extends State<StatisticsWeekend>
 
   @override
   void initState() {
-    category = CategoryType.sleep_stages;
+    category = CategoryType.sleep_stages; //αρχικό επιλεγμένο category
     topBarAnimation = CurvedAnimation(
         parent: widget.animationController!,
         curve: Interval(0, 0.5, curve: Curves.fastOutSlowIn));
@@ -175,16 +172,17 @@ class _StatisticsWeekendState extends State<StatisticsWeekend>
     });
 
     super.initState();
-    get();
+    get(); //πριν τρέξει η main θέλουμε να έχουμε διαβάσει τα δεδομένα
   }
 
   void get() async {
+    //΄κλήση συνάρτησης με την οποία αντλούμαι τα δεδομένα με βάση τις ημέρες που δίνουμε ως όρισμα
     final data = await DB().getAllRecordsByWeekend(
         DateFormat('yyyy-MM-dd').format(startDate),
         DateFormat('yyyy-MM-dd').format(endDate));
     setState(() {
       sleepWeekendStatistics = [...data];
-      _isLoading = false;
+      _isLoading = false; //για να ξέρουμε οτι τα δεδομένα διαβάστηκαν
       addWidgets();
     });
   }
@@ -202,19 +200,14 @@ class _StatisticsWeekendState extends State<StatisticsWeekend>
                 : ListView.builder(
                     controller: scrollController,
                     scrollDirection: Axis.vertical,
-                    padding: EdgeInsets.only(top: 120, bottom: 50
-                        // top: AppBar().preferredSize.height +
-                        //     MediaQuery.of(context).padding.top +
-                        //     24,
-                        // bottom: 62 + MediaQuery.of(context).padding.bottom,
-                        ),
+                    padding: EdgeInsets.only(top: 120, bottom: 50),
                     itemCount: listViews.length,
                     itemBuilder: (BuildContext context, int index) {
                       return listViews[index];
                     },
                   ),
-            // getAppBarUI(),
             AppBarWidget(
+              //αρχικοποίηση AppBar
               animationController: widget.animationController,
               topBarAnimation: topBarAnimation,
               topBarOpacity: topBarOpacity,
@@ -224,7 +217,8 @@ class _StatisticsWeekendState extends State<StatisticsWeekend>
               onTap: () async {
                 FocusScope.of(context).requestFocus(FocusNode());
 
-                showDemoDialog(context: context);
+                showDemoDialog(
+                    context: context); //listener για το άνοιγμα του ημερολογίου
               },
               startDate: startDate,
               endDate: endDate,
@@ -235,21 +229,23 @@ class _StatisticsWeekendState extends State<StatisticsWeekend>
     );
   }
 
+//συνάρτηση που φτιάχνει το ημερολόγιο της εφαρμογής
   void showDemoDialog({BuildContext? context}) {
     showDialog<dynamic>(
       context: context!,
       builder: (BuildContext context) => CalendarPopupView(
         barrierDismissible: true,
-        // minimumDate: DateTime(2022, 4, 12),
-        //  maximumDate: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day + 10),
-        // initialEndDate: DateTime(2022, 4, 12),
-        // initialStartDate: DateTime(2022, 4, 12),
-        onApplyClick: (DateTime startData, DateTime endData,
+        onApplyClick: (DateTime startData,
+            DateTime
+                endData, //callback function για την ανανέωση των δεδομένων σε περίπτωση που ο χρήστης επιλέξει άλλες μέρες
             BuildContext newContext) async {
-          final current = endData.difference(startData).inDays;
+          final current = endData
+              .difference(startData)
+              .inDays; //επειδή είναι στατιστικά εβδομάδας θέλουμε ο χρήστης να επιλέξει ακριβώς 7 ημέρες
           if (current == 6) {
             tryingWeekend = [];
             tryingWeekend = await DB().getAllRecordsByWeekendTemp(
+                //αμα έχει επιλέξει 7 ημέρες κάνουμε select απο την βάση
                 DateFormat('yyyy-MM-dd').format(startData),
                 DateFormat('yyyy-MM-dd').format(endData));
           }
@@ -260,10 +256,13 @@ class _StatisticsWeekendState extends State<StatisticsWeekend>
               endDate = endData;
 
               sleepWeekendStatistics = [];
-              sleepWeekendStatistics = [...tryingWeekend];
+              sleepWeekendStatistics = [
+                ...tryingWeekend
+              ]; //ανανέωση δεδομένων οθόνης
               listViews = [];
-              print(category);
+
               if (category == CategoryType.sleep_stages) {
+                //ελέγχουμε ποια ήταν η τελευταία επιλεγμένη κατηγορία
                 addWidgets();
               } else if (category == CategoryType.sleep_quality) {
                 addAnother();
@@ -273,6 +272,7 @@ class _StatisticsWeekendState extends State<StatisticsWeekend>
               Navigator.pop(context);
             } else {
               Scaffold.of(newContext).showSnackBar(
+                //αμα δεν επιλέξει 7 ημέρες εμφάνισει μηνύματος
                 SnackBar(
                   content: Text(
                       'You have to choose seven days. For example, if you want to see your sleep data for the second week of May, you must choose May 9 as first day and May 15 as last day.'),
@@ -280,8 +280,6 @@ class _StatisticsWeekendState extends State<StatisticsWeekend>
                 ),
               );
             }
-
-            // category == CategoryType.sleep_stages ? addWidgets() : addAnother();
           });
         },
         onCancelClick: () {},

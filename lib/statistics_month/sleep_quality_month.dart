@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import '../screens/statistics_month.dart';
 import '../sleep_app_theme.dart';
 
+//Διάγραμμα γραμμής στατιστικών μήνα κατηγορίας sleep quality
 class LineChartSample2 extends StatefulWidget {
   const LineChartSample2({Key? key}) : super(key: key);
 
@@ -16,12 +17,13 @@ class LineChartSample2 extends StatefulWidget {
 }
 
 class _LineChartSample2State extends State<LineChartSample2> {
+  //Αρχικοποιήσεις
   List<Color> gradientColors = [
     Colors.purple,
     Colors.purple,
   ];
   double touchedValue = -1;
-  double akiros = 2;
+
   int tapIndex = -1;
   @override
   Widget build(BuildContext context) {
@@ -94,6 +96,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
   }
 
   LineChartData mainData() {
+    //δεδομένα γραφήματος
     return LineChartData(
       gridData: FlGridData(
         show: false,
@@ -114,6 +117,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
         },
       ),
       lineTouchData: LineTouchData(
+        //συνάρτηση για να ελέγχουμε πότε πατήθηκε ενα σημείο
         touchCallback: (FlTouchEvent event, LineTouchResponse? lineTouch) {
           if (!event.isInterestedForInteractions ||
               lineTouch == null ||
@@ -124,26 +128,16 @@ class _LineChartSample2State extends State<LineChartSample2> {
             return;
           }
           final value = lineTouch.lineBarSpots![0].x;
-          print(value);
-          // if (value == 0 || value == 6) {
-          //   setState(() {
-          //     touchedValue = -1;
-          //   });
-          //   return;
-          // }
 
           setState(() {
             touchedValue = value;
           });
         },
-        // touchCallback: (event, response) {
-        //   if (response != null && event is FlTapUpEvent) {
-        //     print('tapped');
-        //   }
-        // },
+
         touchTooltipData: LineTouchTooltipData(
           tooltipBgColor: Colors.black,
           getTooltipItems: (List<LineBarSpot> spots) {
+            //tooltip
             return spots
                 .map(
                   (spot) => LineTooltipItem(
@@ -172,6 +166,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
         ),
       ]),
       titlesData: FlTitlesData(
+        //'αξονες διαγράμματος
         show: true,
         rightTitles: AxisTitles(
           sideTitles: SideTitles(showTitles: false),
@@ -234,6 +229,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
       maxY: 100,
       lineBarsData: [
         LineChartBarData(
+          //δημιουργία λίστα FlSpot που χρειάζεται το γράφημα ως input
           spots: [
             for (int i = 0; i < sleepMonthStatistics.length; i++)
               FlSpot(i.toDouble(), sleepMonthStatistics[i].sleep_score * 100)
@@ -266,6 +262,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
 }
 
 double getAverage() {
+  //εύρεση μέσου όρου
   double average = 0.0;
   for (int i = 0; i < sleepMonthStatistics.length; i++) {
     average += sleepMonthStatistics[i].sleep_score;

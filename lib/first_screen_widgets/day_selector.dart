@@ -6,6 +6,7 @@ import 'package:date_picker_timeline/date_picker_timeline.dart';
 import '../../helper/db.dart';
 import '../models/sleep.dart';
 
+//Widget για το calendar της αρχικης οθόνης
 class DaySelector extends StatefulWidget {
   const DaySelector({Key? key, this.onApplyClick}) : super(key: key);
 
@@ -16,7 +17,7 @@ class DaySelector extends StatefulWidget {
 }
 
 class _DaySelectorState extends State<DaySelector> {
-  DateTime _selectedDate = DateTime.now();
+  DateTime _selectedDate = DateTime.now(); //προεπιλεγμένη η τωρινή ημερομηνία
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -44,12 +45,11 @@ class _DaySelectorState extends State<DaySelector> {
           color: Colors.grey,
         ),
         onDateChange: (date) async {
+          //κλήση callback function κάθε φορα που ο χρήστης επιλέγει άλλη ημέρα, επιστρέφει πίσω τα νέα δεδομένα
           final data = await DB().getHomeInfo(date);
           setState(() {
             _selectedDate = date;
-            print(data.length);
-            // homeData = [];
-            // homeData = [...data];
+
             if (data.length != 0) {
               widget.onApplyClick!(data);
             } else {

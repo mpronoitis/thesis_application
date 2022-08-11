@@ -2,32 +2,27 @@
 
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
-import 'package:ptixiaki_sleep_stages/first_screen_widgets/meals_list_view.dart';
-import 'package:ptixiaki_sleep_stages/first_screen_widgets/meals_list_view.dart';
-import 'package:ptixiaki_sleep_stages/models/meals_list_data.dart';
+import 'package:ptixiaki_sleep_stages/models/sleep_stages_list_data.dart';
 import 'package:ptixiaki_sleep_stages/sleep_app_theme.dart';
-
 import '../../main.dart';
-import '../models/meals_list_data.dart';
-import '../screens/first_screen.dart';
-import 'meals_list_view.dart';
+import '../models/sleep_stages_list_data.dart';
 
-class MealsListView extends StatefulWidget {
-  const MealsListView(
+class SleepStagesView extends StatefulWidget {
+  const SleepStagesView(
       {Key? key,
       this.mainScreenAnimationController,
       this.mainScreenAnimation,
-      required this.mealsListData})
+      required this.sleepStagesListData})
       : super(key: key);
-
+//αρχικοποιήσεις παραμέτρων που δέχεται ο constructor
   final AnimationController? mainScreenAnimationController;
   final Animation<double>? mainScreenAnimation;
-  final List<MealsListData> mealsListData;
+  final List<SleepStagesData> sleepStagesListData;
   @override
-  _MealsListViewState createState() => _MealsListViewState();
+  _SleepStagesViewState createState() => _SleepStagesViewState();
 }
 
-class _MealsListViewState extends State<MealsListView>
+class _SleepStagesViewState extends State<SleepStagesView>
     with TickerProviderStateMixin {
   AnimationController? animationController;
   @override
@@ -51,6 +46,7 @@ class _MealsListViewState extends State<MealsListView>
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
+      //χρήση animatedBuilder για το animation των καρτών sleep stages
       animation: widget.mainScreenAnimationController!,
       builder: (BuildContext context, Widget? child) {
         return FadeTransition(
@@ -76,8 +72,9 @@ class _MealsListViewState extends State<MealsListView>
                                   curve: Curves.fastOutSlowIn)));
                   animationController?.forward();
 
-                  return MealsView(
-                    mealsListData: widget.mealsListData[index],
+                  return SleepStages(
+                    //widget κάρτας sleep stage σε καθένα απο τα οποίο περνάμε τις κατάλληλες παραμέτρους
+                    sleepstagesdata: widget.sleepStagesListData[index],
                     animation: animation,
                     animationController: animationController!,
                   );
@@ -91,12 +88,16 @@ class _MealsListViewState extends State<MealsListView>
   }
 }
 
-class MealsView extends StatelessWidget {
-  const MealsView(
-      {Key? key, this.mealsListData, this.animationController, this.animation})
+class SleepStages extends StatelessWidget {
+  //widget κάρτας sleep stage
+  const SleepStages(
+      {Key? key,
+      this.sleepstagesdata,
+      this.animationController,
+      this.animation})
       : super(key: key);
-
-  final MealsListData? mealsListData;
+//αρχικοποίηση παραμέτρων που δέχεται
+  final SleepStagesData? sleepstagesdata;
   final AnimationController? animationController;
   final Animation<double>? animation;
 
@@ -118,43 +119,26 @@ class MealsView extends StatelessWidget {
                     padding: const EdgeInsets.only(
                         top: 5, left: 8, right: 8, bottom: 1),
                     child: Container(
-                      // decoration: BoxDecoration(
-                      //   // gradient: LinearGradient(colors: [
-                      //   //   Color(0xff0f17ad).withOpacity(0.8),
-                      //   //   Color(0xFF6985e8).withOpacity(0.9)
-                      //   // ]),
-                      //   color: SleepAppTheme.white,
-                      //   borderRadius: const BorderRadius.only(
-                      //       topLeft: Radius.circular(8.0),
-                      //       bottomLeft: Radius.circular(8.0),
-                      //       bottomRight: Radius.circular(8.0),
-                      //       topRight: Radius.circular(54.0)),
-                      //   boxShadow: <BoxShadow>[
-                      //     //colorLor
-                      //     BoxShadow(
-                      //         color: SleepAppTheme.grey.withOpacity(0.2),
-                      //         offset: Offset(1.1, 1.1),
-                      //         blurRadius: 10.0),
-                      //   ],
-                      // ),
                       decoration: BoxDecoration(
                         color: SleepAppTheme.white,
                         boxShadow: <BoxShadow>[
                           BoxShadow(
-                              color: HexColor(mealsListData!.endColor!)
+                              color: HexColor(sleepstagesdata!.endColor!)
                                   .withOpacity(0.6),
                               offset: const Offset(1.1, 4.0),
                               blurRadius: 8.0),
                         ],
                         gradient: LinearGradient(
+                          //προσθήκη gradient χρώματος
                           colors: <HexColor>[
-                            HexColor(mealsListData!.startColor!),
-                            HexColor(mealsListData!.endColor!),
+                            HexColor(sleepstagesdata!.startColor!),
+                            HexColor(sleepstagesdata!.endColor!),
                           ],
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
                         ),
                         borderRadius: const BorderRadius.only(
+                          //radius κάρτας
                           bottomRight: Radius.circular(8.0),
                           bottomLeft: Radius.circular(8.0),
                           topLeft: Radius.circular(8.0),
@@ -169,7 +153,7 @@ class MealsView extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              mealsListData!.titleTxt!,
+                              sleepstagesdata!.titleTxt!,
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontFamily: SleepAppTheme.fontName,
@@ -191,9 +175,9 @@ class MealsView extends StatelessWidget {
                                       radius: 80.0,
                                       lineWidth: 13.0,
                                       animation: true,
-                                      percent: mealsListData!.progress!,
+                                      percent: sleepstagesdata!.progress!,
                                       center: Text(
-                                        ((mealsListData!.progress! * 100)
+                                        ((sleepstagesdata!.progress! * 100)
                                                     .toInt())
                                                 .toString() +
                                             '${'%'}',
@@ -205,33 +189,12 @@ class MealsView extends StatelessWidget {
                                           color: SleepAppTheme.darkText,
                                         ),
                                       ),
-                                      // footer: Text(
-                                      //   "Sleep Score",
-                                      //   style: TextStyle(
-                                      //     fontFamily: SleepAppTheme.fontName,
-                                      //     fontWeight: FontWeight.bold,
-                                      //     fontSize: 20,
-                                      //     letterSpacing: 0.0,
-                                      //     color: SleepAppTheme.grey
-                                      //         .withOpacity(0.5),
-                                      //   ),
-                                      // ),
                                       circularStrokeCap:
                                           CircularStrokeCap.round,
                                       progressColor: 0.4 < 0.6
                                           ? Colors.purpleAccent
                                           : Colors.purpleAccent,
                                     ),
-                                    // Text(
-                                    //   mealsListData!.meals!.join('\n'),
-                                    //   style: TextStyle(
-                                    //     fontFamily: SleepAppTheme.fontName,
-                                    //     fontWeight: FontWeight.w500,
-                                    //     fontSize: 10,
-                                    //     letterSpacing: 0.2,
-                                    //     color: SleepAppTheme.white,
-                                    //   ),
-                                    // ),
                                   ],
                                 ),
                               ),
@@ -241,7 +204,7 @@ class MealsView extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: <Widget>[
                                 Text(
-                                  mealsListData!.kacl!,
+                                  sleepstagesdata!.kacl!,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     fontFamily: SleepAppTheme.fontName,
@@ -251,20 +214,6 @@ class MealsView extends StatelessWidget {
                                     color: SleepAppTheme.grey,
                                   ),
                                 ),
-                                // Padding(
-                                //   padding:
-                                //       const EdgeInsets.only(left: 4, bottom: 3),
-                                //   child: Text(
-                                //     'kcal',
-                                //     style: TextStyle(
-                                //       fontFamily: SleepAppTheme.fontName,
-                                //       fontWeight: FontWeight.w500,
-                                //       fontSize: 10,
-                                //       letterSpacing: 0.2,
-                                //       color: SleepAppTheme.white,
-                                //     ),
-                                //   ),
-                                // ),
                               ],
                             )
                           ],
@@ -284,15 +233,6 @@ class MealsView extends StatelessWidget {
                       ),
                     ),
                   ),
-                  // Positioned(
-                  //   top: 0,
-                  //   left: 8,
-                  //   child: SizedBox(
-                  //     width: 80,
-                  //     height: 80,
-                  //     child: Image.asset(mealsListData!.imagePath),
-                  //   ),
-                  // )
                 ],
               ),
             ),

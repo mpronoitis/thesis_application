@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
 import 'dart:async';
 import 'package:fl_chart/fl_chart.dart';
@@ -25,6 +25,7 @@ class AsleepAfterChart extends StatefulWidget {
   State<StatefulWidget> createState() => AsleepAfterChartState();
 }
 
+//Διάγραμμα κατηγορίας AsleepAfter // για να το δημιουργούμε μόνο μία φορα στον constructor πέρναμε ως argument τον τύπο οθόνης
 class AsleepAfterChartState extends State<AsleepAfterChart> {
   final Color barBackgroundColor = const Color(0xff72d8bf);
   final Duration animDuration = const Duration(milliseconds: 250);
@@ -32,7 +33,7 @@ class AsleepAfterChartState extends State<AsleepAfterChart> {
     Colors.purple,
     Colors.deepPurple,
   ];
-
+//Αρχικοποιήσεις
   int touchedIndex = -1;
   double touchedValue = -1;
   int tapIndex = -1;
@@ -43,12 +44,14 @@ class AsleepAfterChartState extends State<AsleepAfterChart> {
     return AspectRatio(
       aspectRatio: 1,
       child: widget
-              .type //δεχεται ως ορισμα των τύπο δεδομένων και με βάση αυτό δημιουργεί το κατάλληλο διαγραμμα της οθόνης
+              .type //δεχεται ως ορισμα των τύπο δεδομένων και με βάση αυτό δημιουργεί το κατάλληλο διαγραμμα της οθόνης(εδω πρόκειται για το διάγραμμα των στατιστικών εβδομάδας)
           ? Card(
               shape: RoundedRectangleBorder(
+                  //στρογγυλοποιημένες γωνίες
                   borderRadius: BorderRadius.circular(18)),
               color: SleepAppTheme.white,
               child: Stack(
+                //χρήση widget stack για να μπορούμε να προσθέσουμε πάνω στο διάγραμμα περιεχόμενο
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.all(16),
@@ -80,7 +83,8 @@ class AsleepAfterChartState extends State<AsleepAfterChart> {
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 8.0),
                             child: BarChart(
-                              mainBarData(),
+                              //διάγραμμα στήλης για το γράφημα των στατιστικών εβδομάδας
+                              mainBarData(), //κλήση συνάρτηση για την δημιουργία των δεδομένων για το γράφημα
                               swapAnimationDuration: animDuration,
                             ),
                           ),
@@ -95,6 +99,7 @@ class AsleepAfterChartState extends State<AsleepAfterChart> {
               ),
             )
           : Card(
+              //σε αυτήν την περίπτωση πρόκειται για το διάγραμμα των στατιστικών μήνα
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(18)),
               color: SleepAppTheme.white,
@@ -130,7 +135,8 @@ class AsleepAfterChartState extends State<AsleepAfterChart> {
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 8.0),
                             child: LineChart(
-                              mainMonthlyData(),
+                              //δημιουργία διαγράμματος γραμμής
+                              mainMonthlyData(), //συνάρτηση για την δημιουργία των δεδομένων του διαγράμματος
                               swapAnimationDuration: animDuration,
                             ),
                           ),
@@ -148,6 +154,7 @@ class AsleepAfterChartState extends State<AsleepAfterChart> {
   }
 
   LineChartData mainMonthlyData() {
+    //συνάρτηση για το διάγραμμα γραμμής
     return LineChartData(
       gridData: FlGridData(
         show: false,
@@ -168,34 +175,25 @@ class AsleepAfterChartState extends State<AsleepAfterChart> {
         },
       ),
       lineTouchData: LineTouchData(
+        //listener που παρακολουθεί το click του χρήστη πάνω στο διάγραμμα
         touchCallback: (FlTouchEvent event, LineTouchResponse? lineTouch) {
           if (!event.isInterestedForInteractions ||
               lineTouch == null ||
               lineTouch.lineBarSpots == null) {
             setState(() {
-              touchedValue = -1;
+              touchedValue =
+                  -1; //boolean για να ξέρουμε πότε πατάει ο χρήστης πατάει πάνω στο γράφημα
             });
             return;
           }
           final value = lineTouch.lineBarSpots![0].x;
-          print(value);
-          // if (value == 0 || value == 6) {
-          //   setState(() {
-          //     touchedValue = -1;
-          //   });
-          //   return;
-          // }
-
           setState(() {
             touchedValue = value;
           });
         },
-        // touchCallback: (event, response) {
-        //   if (response != null && event is FlTapUpEvent) {
-        //     print('tapped');
-        //   }
-        // },
+
         touchTooltipData: LineTouchTooltipData(
+          //καθορίζει πως εμφανίζεται το tooltip όταν ο χρήστης πατάει πάνω στο spot
           // / 60
           tooltipBgColor: Colors.black,
           getTooltipItems: (List<LineBarSpot> spots) {
@@ -222,6 +220,7 @@ class AsleepAfterChartState extends State<AsleepAfterChart> {
         ),
       ),
       extraLinesData: ExtraLinesData(horizontalLines: [
+        //δημιουργούμαι μία γραμμή στο average του χρόνου
         HorizontalLine(
           y: average(),
           color: SleepAppTheme.grey.withOpacity(0.4),
@@ -230,6 +229,7 @@ class AsleepAfterChartState extends State<AsleepAfterChart> {
         ),
       ]),
       titlesData: FlTitlesData(
+        //επιλέγουμε ποιοι άξονες θέλουμε να φαίνονται στο διάγραμμα
         show: true,
         rightTitles: AxisTitles(
           sideTitles: SideTitles(showTitles: false),
@@ -242,6 +242,7 @@ class AsleepAfterChartState extends State<AsleepAfterChart> {
             showTitles: true,
             interval: 1,
             getTitlesWidget: (value, meta) {
+              //πληροφορία που θα περιέχουν οι άξονες
               final date = DateTime.parse(
                   sleepMonthStatistics[value.toInt()].recording_day);
               final dateText = DateFormat.d().format(date) +
@@ -292,12 +293,14 @@ class AsleepAfterChartState extends State<AsleepAfterChart> {
       maxY: 30,
       lineBarsData: [
         LineChartBarData(
+          //συνάρτηση που δημιουργεί τα σημεία(τροφοδοτείται απο την λίστα που βρίσκεται στην main)
           spots: [
             for (int i = 0; i < sleepMonthStatistics.length; i++)
               FlSpot(i.toDouble(), sleepMonthStatistics[i].asleep_after!)
           ],
           isCurved: true,
           gradient: LinearGradient(
+            //gradient γέμισμα στην γραμμή
             colors: gradientColors,
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -322,6 +325,7 @@ class AsleepAfterChartState extends State<AsleepAfterChart> {
     );
   }
 
+//δημιουργία των στηλών με βάση τα δεδομένα της λίστας
   BarChartGroupData makeGroupData(
     int x,
     double y, {
@@ -354,6 +358,7 @@ class AsleepAfterChartState extends State<AsleepAfterChart> {
   }
 
   List<BarChartGroupData> showingGroups() => List.generate(7, (i) {
+        //δημιουργία δεδομένων στατιστικών εβδομάδας
         switch (i) {
           case 0:
             return makeGroupData(0, sleepWeekendStatistics[0].asleep_after!,
@@ -382,9 +387,10 @@ class AsleepAfterChartState extends State<AsleepAfterChart> {
       });
 
   BarChartData mainBarData() {
-    //εβδομαδίαια δεδομένα κατηγορίας asleep after
+    //συνάρτηση για το format των δεδομένων
     return BarChartData(
       barTouchData: BarTouchData(
+        //καθορίζουμε τι εμφανίζεται όταν ο χρήστης πατάει πάνω στην μπάρα
         touchTooltipData: BarTouchTooltipData(
             tooltipBgColor: Colors.blueGrey,
             getTooltipItem: (group, groupIndex, rod, rodIndex) {
@@ -422,6 +428,7 @@ class AsleepAfterChartState extends State<AsleepAfterChart> {
                   throw Error();
               }
               return BarTooltipItem(
+                //tooltip
                 weekDay + '\n',
                 const TextStyle(
                   color: Colors.white,
@@ -507,6 +514,7 @@ class AsleepAfterChartState extends State<AsleepAfterChart> {
     );
   }
 
+//μορφη αξόνων y διαγράμματος στατιστικών μήνα
   Widget leftTitleWidgetsMonth(double value, TitleMeta meta) {
     const style = TextStyle(
       color: Color(0xff67727d),
@@ -539,6 +547,7 @@ class AsleepAfterChartState extends State<AsleepAfterChart> {
     );
   }
 
+//μορφη αξόνων y διαγράμματος στατιστικών εβδομάδας
   Widget leftTitleWidgets(double value, TitleMeta meta) {
     const style = TextStyle(
       color: Color(0xff67727d),
@@ -570,18 +579,10 @@ class AsleepAfterChartState extends State<AsleepAfterChart> {
       children: [Text(text, style: style)],
     );
   }
-
-  Future<dynamic> refreshState() async {
-    setState(() {});
-    await Future<dynamic>.delayed(
-        animDuration + const Duration(milliseconds: 50));
-    if (isPlaying) {
-      await refreshState();
-    }
-  }
 }
 
 double average() {
+  //υπολογισμός μέσου όρου aslee after time
   double totalAverage = 0.0;
   for (int i = 0; i < sleepMonthStatistics.length; i++) {
     totalAverage += sleepMonthStatistics[i].asleep_after!;
@@ -589,230 +590,3 @@ double average() {
   print(totalAverage / sleepMonthStatistics.length);
   return totalAverage / sleepMonthStatistics.length;
 }
-
-// bool find(double score) {
-//   double maxValue = score;
-//   print(score);
-//   for (int i = 0; i < sleepWeekendStatistics.length; i++) {
-//     if (maxValue < sleepWeekendStatistics[i].sleep_score) {
-//       maxValue = sleepWeekendStatistics[i].sleep_score;
-//     }
-//   }
-//   print(score == maxValue);
-//   print(maxValue);
-//   return score == maxValue;
-// }
-
-// bool findMin(double score) {
-//   double minValue = score;
-//   for (int i = 0; i < sleepWeekendStatistics.length; i++) {
-//     if (minValue > sleepWeekendStatistics[i].sleep_score) {
-//       minValue = sleepWeekendStatistics[i].sleep_score;
-//     }
-//   }
-
-//   return score == minValue;
-// }
-
-
-// ignore_for_file: unnecessary_string_interpolations, prefer_const_constructors
-
-// import 'package:flutter/material.dart';
-// import 'package:intl/intl.dart';
-// import 'package:syncfusion_flutter_charts/charts.dart';
-
-// import '../models/sleep.dart';
-// import '../screens/statistics_weekend.dart';
-// import '../sleep_app_theme.dart';
-
-// class SleepQualityChart extends StatefulWidget {
-//   const SleepQualityChart({Key? key}) : super(key: key);
-
-//   @override
-//   State<SleepQualityChart> createState() => _SleepQualityChartState();
-// }
-
-// class _SleepQualityChartState extends State<SleepQualityChart> {
-//   TooltipBehavior? _tooltipBehavior;
-//   @override
-//   void initState() {
-//     _tooltipBehavior = TooltipBehavior(
-//         enable: true,
-//         canShowMarker: false,
-//         header: '',
-//         textStyle: TextStyle(
-//           fontSize: 18,
-//         ),
-//         format: 'point.y sleep score in point.x');
-//     super.initState();
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//         width: 300,
-//         height: 400,
-//         decoration: BoxDecoration(
-//           // gradient: LinearGradient(colors: [
-//           //   Color(0xff0f17ad).withOpacity(0.8),
-//           //   Color(0xFF6985e8).withOpacity(0.9)
-//           // ]),
-//           color: SleepAppTheme.white,
-//           borderRadius: const BorderRadius.only(
-//               topLeft: Radius.circular(8.0),
-//               bottomLeft: Radius.circular(8.0),
-//               bottomRight: Radius.circular(8.0),
-//               topRight: Radius.circular(8.0)),
-//           boxShadow: <BoxShadow>[
-//             //colorLor
-//             BoxShadow(
-//                 color: SleepAppTheme.grey.withOpacity(0.2),
-//                 offset: Offset(1.1, 1.1),
-//                 blurRadius: 10.0),
-//           ],
-//         ),
-//         child: _buildRoundedBarChart());
-//   }
-
-//   SfCartesianChart _buildRoundedBarChart() {
-//     return SfCartesianChart(
-//       plotAreaBorderWidth: 0,
-//       title: ChartTitle(text: 'Sleep Quality By Day'),
-//       primaryXAxis:
-//           CategoryAxis(majorGridLines: const MajorGridLines(width: 0)),
-//       primaryYAxis: NumericAxis(
-//           labelFormat: '{value}%',
-//           minimum: 0,
-//           maximum: 100,
-//           majorTickLines: const MajorTickLines(size: 0)),
-//       series: _getRoundedBarSeries(),
-//       tooltipBehavior: _tooltipBehavior,
-//     );
-//   }
-
-//   List<BarSeries<Sleep, String>> _getRoundedBarSeries() {
-//     return <BarSeries<Sleep, String>>[
-//       BarSeries<Sleep, String>(
-//         dataSource: sleepWeekendStatistics,
-//         color: Colors.deepPurple,
-
-//         /// We can enable the track for column here.
-//         isTrackVisible: true,
-//         trackColor: const Color.fromRGBO(198, 201, 207, 1),
-
-//         /// If we set the border radius value for bar series,
-//         /// then the series will appear as rounder corner.
-//         borderRadius: const BorderRadius.all(Radius.circular(10)),
-//         xValueMapper: (Sleep sales, _) =>
-//             ' ${DateFormat.d().format(DateTime.parse(sales.recording_day))}' +
-//             '${'/'}' +
-//             '${DateFormat.M().format(DateTime.parse(sales.recording_day))}' +
-//             '${'\n'}' +
-//             '${DateFormat.E().format(DateTime.parse(sales.recording_day))}',
-//         yValueMapper: (Sleep sales, _) => sales.sleep_score * 100,
-//       ),
-//     ];
-//   }
-// }
-
-// // class SleepQualityChart extends StatefulWidget {
-// //   const SleepQualityChart({Key? key}) : super(key: key);
-
-// //   @override
-// //   State<SleepQualityChart> createState() => _SleepQualityChartState();
-// // }
-
-// // class _SleepQualityChartState extends State<SleepQualityChart> {
-// //   TooltipBehavior? _tooltipBehavior;
-
-// //   @override
-// //   void initState() {
-// //     _tooltipBehavior = TooltipBehavior(
-// //         enable: true,
-// //         canShowMarker: false,
-// //         header: '',
-// //         textStyle: TextStyle(
-// //           fontSize: 18,
-// //         ),
-// //         format: 'point.y sleep score in point.x');
-// //     super.initState();
-// //   }
-
-// //   @override
-// //   Widget build(BuildContext context) {
-// //     return Container(
-// //         decoration: BoxDecoration(
-// //           // gradient: LinearGradient(colors: [
-// //           //   Color(0xff0f17ad).withOpacity(0.8),
-// //           //   Color(0xFF6985e8).withOpacity(0.9)
-// //           // ]),
-// //           color: SleepAppTheme.white,
-// //           borderRadius: const BorderRadius.only(
-// //               topLeft: Radius.circular(8.0),
-// //               bottomLeft: Radius.circular(8.0),
-// //               bottomRight: Radius.circular(8.0),
-// //               topRight: Radius.circular(8.0)),
-// //           boxShadow: <BoxShadow>[
-// //             //colorLor
-// //             BoxShadow(
-// //                 color: SleepAppTheme.grey.withOpacity(0.2),
-// //                 offset: Offset(1.1, 1.1),
-// //                 blurRadius: 10.0),
-// //           ],
-// //         ),
-// //         child: _buildTrackerColumnChart());
-// //   }
-
-// //   SfCartesianChart _buildTrackerColumnChart() {
-// //     return SfCartesianChart(
-// //       plotAreaBorderWidth: 0,
-// //       title: ChartTitle(text: 'Sleep Quality By Day'),
-// //       // legend: Legend(isVisible: !isCardView),
-// //       primaryXAxis: CategoryAxis(
-// //         axisLine: const AxisLine(width: 0),
-// //         majorGridLines: const MajorGridLines(width: 0),
-// //         majorTickLines: const MajorTickLines(size: 0),
-// //       ),
-// //       // labelStyle: TextStyle(
-// //       //   fontSize: 16,
-// //       // )),
-// //       primaryYAxis: NumericAxis(
-// //           labelFormat: '{value}%',
-// //           isVisible: true,
-// //           minimum: 0,
-// //           maximum: 100,
-// //           axisLine: const AxisLine(width: 0),
-// //           majorGridLines: const MajorGridLines(width: 0),
-// //           majorTickLines: const MajorTickLines(size: 0)),
-// //       series: _getTracker(),
-// //       tooltipBehavior: _tooltipBehavior,
-// //     );
-// //   }
-
-// //   List<ColumnSeries<Sleep, String>> _getTracker() {
-// //     return <ColumnSeries<Sleep, String>>[
-// //       ColumnSeries<Sleep, String>(
-// //         dataSource: sleepWeekendStatistics,
-// //         color: Colors.deepPurple,
-
-// //         /// We can enable the track for column here.
-// //         isTrackVisible: true,
-// //         trackColor: const Color.fromRGBO(198, 201, 207, 1),
-// //         borderRadius: BorderRadius.circular(15),
-// //         xValueMapper: (Sleep sales, _) =>
-// //             ' ${DateFormat.d().format(DateTime.parse(sales.recording_day))}' +
-// //             '${'/'}' +
-// //             '${DateFormat.M().format(DateTime.parse(sales.recording_day))}' +
-// //             '${'\n'}' +
-// //             '${DateFormat.E().format(DateTime.parse(sales.recording_day))}',
-// //         yValueMapper: (Sleep sales, _) => sales.sleep_score * 100,
-// //         name: 'Stats',
-// //       )
-// //       // dataLabelSettings: const DataLabelSettings(
-// //       //     isVisible: true,
-// //       //     labelAlignment: ChartDataLabelAlignment.top,
-// //       //     textStyle: TextStyle(fontSize: 14, color: Colors.white)))
-// //     ];
-// //   }
-// // }
-

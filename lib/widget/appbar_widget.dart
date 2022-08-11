@@ -5,7 +5,9 @@ import 'package:intl/intl.dart';
 
 import '../sleep_app_theme.dart';
 
+//Μοντέλο AppBar Widget
 class AppBarWidget extends StatefulWidget {
+  //δέχεται ορίσματα ανάλογα σε ποια οθόνη το δημιουργούμαι
   const AppBarWidget(
       {Key? key,
       required this.animationController,
@@ -18,6 +20,7 @@ class AppBarWidget extends StatefulWidget {
       this.startDate,
       this.endDate})
       : super(key: key);
+  //Με βάση τα ορίσματα που δέχεται αρχικοποιούμαι τις μεταβλητές
   final AnimationController? animationController;
   final Animation<double>? topBarAnimation;
   final double topBarOpacity;
@@ -63,16 +66,14 @@ class _AppBarWidgetState extends State<AppBarWidget> {
                   ),
                   child: Column(
                     children: <Widget>[
-                      // SizedBox(
-                      //   height: MediaQuery.of(context).padding.top,
-                      // ),
                       Padding(
                           padding: EdgeInsets.only(
                               left: 16,
                               right: 16,
                               top: 16 - 8.0 * widget.topBarOpacity,
                               bottom: 12 - 8.0 * widget.topBarOpacity),
-                          child: widget.currentPage == 1
+                          child: widget.currentPage ==
+                                  1 //με το current page τσεκάρουμε σε ποια οθόνη βρισκόμαστε
                               ? Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
@@ -212,7 +213,8 @@ class _AppBarWidgetState extends State<AppBarWidget> {
                                                     ),
                                                   ),
                                                   GestureDetector(
-                                                    onTap: widget.onTap,
+                                                    onTap: widget
+                                                        .onTap, //κλήση callback function για την ανανέσωη δεδομένων
                                                     child: Row(
                                                       children: [
                                                         Text(
@@ -259,6 +261,7 @@ class _AppBarWidgetState extends State<AppBarWidget> {
                                                     ),
                                                     Text(
                                                       DateFormat.d().format(
+                                                              //κάνουμε format την ημερομηνία ανάλογα πως θέλουμε να εμφανίζεται
                                                               widget
                                                                   .startDate!) +
                                                           ' ' +

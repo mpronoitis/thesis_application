@@ -44,6 +44,6 @@ class Sleep {
         minutes_rem_sleep: json['minutes_rem_sleep']);
   }
 
-  // Map<String, Object> toJson() =>
-  //     {'sleep_score': sleep_score, 'recording_day': recording_day};
+  Map<String, Object> toJson() =>
+      {'sleep_score': sleep_score, 'recording_day': recording_day};
 }

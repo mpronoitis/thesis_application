@@ -13,7 +13,9 @@ import '../models/sleep.dart';
 import '../sleep_app_theme.dart';
 import 'custom_calendar.dart';
 
+//Widget Ημερολογίου
 class CalendarPopupView extends StatefulWidget {
+  //constructor που δέχεται ορίσματα
   const CalendarPopupView(
       {Key? key,
       this.initialStartDate,
@@ -43,7 +45,8 @@ class CalendarPopupView extends StatefulWidget {
 
 class _CalendarPopupViewState extends State<CalendarPopupView>
     with TickerProviderStateMixin {
-  AnimationController? animationController;
+  AnimationController?
+      animationController; //για να έχουμε animation οταν ανοίγει το calendar
   DateTime? startDate;
   DateTime? endDate;
   bool isActive = false;
@@ -74,6 +77,7 @@ class _CalendarPopupViewState extends State<CalendarPopupView>
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: AnimatedBuilder(
+          //AnimatedBuilder για την υποστήριξη animation
           animation: animationController!,
           builder: (BuildContext context, Widget? child) {
             return AnimatedOpacity(
@@ -187,6 +191,7 @@ class _CalendarPopupViewState extends State<CalendarPopupView>
                               height: 1,
                             ),
                             CustomCalendarView(
+                              //widget που τοποθετεί πάνω στο calendar της ημερες ανάλογα τον επιλεγμένο μήνα
                               minimumDate: widget.minimumDate,
                               maximumDate: widget.maximumDate,
                               initialEndDate: widget.initialEndDate,
@@ -263,9 +268,6 @@ class _CalendarPopupViewState extends State<CalendarPopupView>
                                         Radius.circular(24.0)),
                                     highlightColor: Colors.transparent,
                                     onTap: () async {
-                                      // animationController.reverse().then((f) {
-
-                                      // });
                                       if (widget.typeOfChart == 2) {
                                         if (startDate != null &&
                                             endDate != null) {

@@ -6,13 +6,13 @@ import 'package:intl/intl.dart';
 import '../screens/statistics_month.dart';
 import 'legend_widget.dart';
 
+//Sleep Stages στατιστικών μήνα
 class MonthChart extends StatefulWidget {
   const MonthChart({Key? key}) : super(key: key);
-
+//Αρχικοποιήσεις
   static const deepColor = Color(0xff632af2);
   static const lightColor = Color(0xffffb3ba);
   static const remColor = Color(0xff578eff);
-  // static const awake = Colors.yellow;
   static const betweenSpace = 0.2;
 
   @override
@@ -23,10 +23,14 @@ class _MonthChartState extends State<MonthChart> {
   int tapIndex = 0;
 
   BarChartGroupData generateGroupData(
-      int x, double deep, double light, double rem) {
+      //συνάρτηση για την δημιουργίατων στηλών(κάθε στήλη έχει 3 επιέρους όσα και τα στάδια)
+      int x,
+      double deep,
+      double light,
+      double rem) {
     return BarChartGroupData(
       x: x,
-      groupVertically: true,
+      groupVertically: true, //να εμφανίζονται κάθετα
       barRods: [
         BarChartRodData(
           fromY: 0,
@@ -54,11 +58,6 @@ class _MonthChartState extends State<MonthChart> {
         ),
       ],
     );
-  }
-
-  @override
-  void initState() {
-    super.initState();
   }
 
   @override
@@ -142,46 +141,7 @@ class _MonthChartState extends State<MonthChart> {
                           String x1 = 'Deep';
                           String x2 = 'Light';
                           String x3 = 'Rem';
-                          // String finalText1 = '';
-                          // String finalText2 = '';
-                          // String finalText3 = '';
-
-                          // print('${'value is'}' + '${datax.toY}');
-                          // print('${'x is'}' + '${x}');
-                          // print('${'y is'}' + '${y}');
-
-                          // if (y == 0) {
-                          //   double current = (datax.toY) / 60;
-                          //   int hours = current.toInt();
-                          //   double minutes = datax.toY % 60;
-                          //   String finalText1 =
-                          //       '${sleepMonthStatistics[x].recording_day} ' +
-                          //           '${hours}h' +
-                          //           ' ${minutes.toInt()}m';
-                          // }
-
-                          // if (y == 1) {
-                          //   double current = (datax.toY - 0.2 - 150) / 60;
-                          //   int hours = current.toInt();
-                          //   double minutes = datax.toY % 60;
-                          //   String finalText2 =
-                          //       '${sleepMonthStatistics[x].recording_day} ' +
-                          //           '${hours}h' +
-                          //           ' ${minutes.toInt()}m';
-                          // }
-
-                          // if (y == 2) {
-                          //   double current = (datax.toY - 0.4 - 150 - 120) / 60;
-                          //   int hours = current.toInt();
-                          //   double minutes = datax.toY % 60;
-                          //   String finalText3 =
-                          //       '${sleepMonthStatistics[x].recording_day} ' +
-                          //           '${hours}h' +
-                          //           ' ${minutes.toInt()}m';
-                          // }
-
-                          // print(minutes);
-
+                          //με βάση το y ελέγχουμε σε ποιο στάδιο πάνω πατάει ο χρήστης
                           if (y == 0) {
                             double current = (datax.toY) / 60;
                             int hours = current.toInt();
@@ -242,6 +202,7 @@ class _MonthChartState extends State<MonthChart> {
                   barGroups: [
                     for (int i = 0; i < sleepMonthStatistics.length; i++)
                       generateGroupData(
+                          //κλήση συνάρτησης για την δημιουργία του γραφήματος
                           i,
                           sleepMonthStatistics[i].minutes_deep_sleep!,
                           sleepMonthStatistics[i].minutes_light_sleep!,

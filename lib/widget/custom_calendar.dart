@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import '../main.dart';
 import '../sleep_app_theme.dart';
 
+//Widget που τοποθετεί στο ημερολόγιο τις ημέρες
 class CustomCalendarView extends StatefulWidget {
   const CustomCalendarView(
       {Key? key,
@@ -94,6 +95,7 @@ class _CustomCalendarViewState extends State<CustomCalendarView> {
                         borderRadius:
                             const BorderRadius.all(Radius.circular(24.0)),
                         onTap: () {
+                          //συνάρτηση που καλείται οταν ο χρήστης αλλάξει τον εμφανιζόμενο μήνα
                           setState(() {
                             currentMonthDate = DateTime(currentMonthDate.year,
                                 currentMonthDate.month, 0);

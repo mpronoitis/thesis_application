@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../main.dart';
 
+//Widget για τα legends των γραφημάτων
 class LegendInfo extends StatelessWidget {
   const LegendInfo({Key? key}) : super(key: key);
 
@@ -19,7 +20,6 @@ class LegendInfo extends StatelessWidget {
           Icon(
             Icons.brightness_1,
             color: Color(0xff632af2),
-            // color: HexColor('#87A0E5').withOpacity(1.0),
           ),
           Column(
             children: [
@@ -33,7 +33,6 @@ class LegendInfo extends StatelessWidget {
           Icon(
             Icons.brightness_1,
             color: Color(0xffffb3ba),
-            // color: HexColor('#F1B440').withOpacity(1.0),
           ),
           Column(
             children: [
@@ -47,7 +46,6 @@ class LegendInfo extends StatelessWidget {
           Icon(
             Icons.brightness_1,
             color: Color(0xff578eff),
-            // color: HexColor('#F56E98').withOpacity(1.0),
           ),
           Column(
             children: [
@@ -58,16 +56,6 @@ class LegendInfo extends StatelessWidget {
           SizedBox(
             width: 20.0,
           ),
-          // Icon(
-          //   Icons.brightness_1,
-          //   color: Colors.yellow,
-          // ),
-          // Column(
-          //   children: [
-          //     Text(' Awake'),
-          //     Text(' Time'),
-          //   ],
-          // ),
         ],
       ),
     );

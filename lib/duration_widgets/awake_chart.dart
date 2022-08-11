@@ -12,17 +12,7 @@ import '../helper/db.dart';
 import '../screens/statistics_month.dart';
 import '../statistics_month/legend_widget.dart';
 
-List<double> myList = [34.0, 34.0, 11.0, 8.0, 28.0, 22.0, 6.0];
-
 class AwakeChart extends StatefulWidget {
-  final List<Color> availableColors = const [
-    Colors.purpleAccent,
-    Colors.yellow,
-    Colors.lightBlue,
-    Colors.orange,
-    Colors.pink,
-    Colors.redAccent,
-  ];
   final bool type;
   const AwakeChart({Key? key, required this.type}) : super(key: key);
 
@@ -33,9 +23,8 @@ class AwakeChart extends StatefulWidget {
 class AwakeChartState extends State<AwakeChart> {
   final Color barBackgroundColor = const Color(0xff72d8bf);
   final Duration animDuration = const Duration(milliseconds: 250);
-
+//αρχικοποιήσεις
   int touchedIndex = -1;
-
   bool isPlaying = false;
   List<Color> gradientColors = [
     Colors.purple,
@@ -50,9 +39,11 @@ class AwakeChartState extends State<AwakeChart> {
       aspectRatio: 1.0,
       child: widget.type
           ? Card(
+              //ανάλογα τον τύπο δημιουργούμαι το διάγραμμα για την συγκεκριμένη οθόνη
               shape: RoundedRectangleBorder(
+                  //στρογγυλοποιημένες άκρες
                   borderRadius: BorderRadius.circular(18)),
-              color: SleepAppTheme.white,
+              color: SleepAppTheme.white, //χρώμα κάρτας
               child: Stack(
                 children: <Widget>[
                   Padding(
@@ -72,114 +63,11 @@ class AwakeChartState extends State<AwakeChart> {
                                   fontSize: 24,
                                   fontWeight: FontWeight.bold),
                             ),
-                            // Container(
-                            //   width: 140,
-                            //   decoration: BoxDecoration(
-                            //     color: Colors.grey[200],
-                            //     borderRadius: BorderRadius.circular(16),
-                            //   ),
-                            //   child: Row(
-                            //     children: [
-                            //       Expanded(
-                            //         child: Padding(
-                            //           padding: const EdgeInsets.all(3.0),
-                            //           child: GestureDetector(
-                            //             onTap: () async {
-                            //               DateTime newStartDate = DateTime(
-                            //                   startDate.year,
-                            //                   startDate.month,
-                            //                   startDate.day - 7);
-
-                            //               DateTime newEndDate = DateTime(
-                            //                   startDate.year,
-                            //                   startDate.month,
-                            //                   startDate.day - 1);
-
-                            //               final data = await DB()
-                            //                   .getAllRecordsByWeekendTemp(
-                            //                       DateFormat('yyyy-MM-dd')
-                            //                           .format(newStartDate),
-                            //                       DateFormat('yyyy-MM-dd')
-                            //                           .format(newEndDate));
-
-                            //               // widget.onApplyClick1!(
-                            //               //     newStartDate, newEndDate, data);
-                            //             },
-                            //             child: Container(
-                            //               decoration: BoxDecoration(
-                            //                 color: Colors.white,
-                            //                 borderRadius:
-                            //                     BorderRadius.circular(16),
-                            //               ),
-                            //               padding: const EdgeInsets.symmetric(
-                            //                   vertical: 4),
-                            //               child: const Center(
-                            //                 child: Icon(
-                            //                   Icons.arrow_left,
-                            //                   size: 30,
-                            //                 ),
-                            //               ),
-                            //             ),
-                            //           ),
-                            //         ),
-                            //       ),
-                            //       Expanded(
-                            //         child: GestureDetector(
-                            //           onTap: () async {
-                            //             DateTime newStartDate = DateTime(
-                            //                 endDate.year,
-                            //                 endDate.month,
-                            //                 endDate.day + 1);
-                            //             DateTime newEndDate = DateTime(
-                            //                 endDate.year,
-                            //                 endDate.month,
-                            //                 endDate.day + 7);
-
-                            //             final data = await DB()
-                            //                 .getAllRecordsByWeekendTemp(
-                            //                     DateFormat('yyyy-MM-dd')
-                            //                         .format(newStartDate),
-                            //                     DateFormat('yyyy-MM-dd')
-                            //                         .format(newEndDate));
-
-                            //             // widget.onApplyClick2!(
-                            //             //     newStartDate, newEndDate, data);
-                            //           },
-                            //           child: Container(
-                            //             decoration: BoxDecoration(
-                            //               color: Colors.white,
-                            //               borderRadius:
-                            //                   BorderRadius.circular(16),
-                            //             ),
-                            //             padding: const EdgeInsets.symmetric(
-                            //                 vertical: 4),
-                            //             child: const Center(
-                            //               child: Icon(
-                            //                 Icons.arrow_right,
-                            //                 size: 30,
-                            //               ),
-                            //             ),
-                            //           ),
-                            //         ),
-                            //       )
-                            //     ],
-                            //   ),
-                            // )
                           ],
                         ),
                         const SizedBox(
                           height: 4,
                         ),
-                        // LegendsListWidget(
-                        //   legends: [
-                        //     Legend("Longest", Colors.deepPurple),
-                        //     Legend(
-                        //       "Shortest",
-                        //       Colors.red,
-                        //     ),
-                        //     // Legend("Min", Color(0xffffb3ba)),
-                        //   ],
-                        // ),
                         const SizedBox(
                           height: 20,
                         ),
@@ -188,6 +76,7 @@ class AwakeChartState extends State<AwakeChart> {
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 0.0),
                             child: BarChart(
+                              //διάγραμμα στήλης για τα στατιστικά εβδομάδας
                               mainBarData(),
                               swapAnimationDuration: animDuration,
                             ),
@@ -199,30 +88,11 @@ class AwakeChartState extends State<AwakeChart> {
                       ],
                     ),
                   ),
-                  // Padding(
-                  //   padding: const EdgeInsets.all(8.0),
-                  //   child: Align(
-                  //     alignment: Alignment.topRight,
-                  //     child: IconButton(
-                  //       icon: Icon(
-                  //         isPlaying ? Icons.pause : Icons.play_arrow,
-                  //         color: const Color(0xff0f4a3c),
-                  //       ),
-                  //       onPressed: () {
-                  //         setState(() {
-                  //           isPlaying = !isPlaying;
-                  //           if (isPlaying) {
-                  //             refreshState();
-                  //           }
-                  //         });
-                  //       },
-                  //     ),
-                  //   ),
-                  // )
                 ],
               ),
             )
           : Card(
+              //περίπτωση οθόνης στατιστικών μήνα
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(18)),
               color: SleepAppTheme.white,
@@ -245,114 +115,11 @@ class AwakeChartState extends State<AwakeChart> {
                                   fontSize: 24,
                                   fontWeight: FontWeight.bold),
                             ),
-                            // Container(
-                            //   width: 140,
-                            //   decoration: BoxDecoration(
-                            //     color: Colors.grey[200],
-                            //     borderRadius: BorderRadius.circular(16),
-                            //   ),
-                            //   child: Row(
-                            //     children: [
-                            //       Expanded(
-                            //         child: Padding(
-                            //           padding: const EdgeInsets.all(3.0),
-                            //           child: GestureDetector(
-                            //             onTap: () async {
-                            //               DateTime newStartDate = DateTime(
-                            //                   startDate.year,
-                            //                   startDate.month,
-                            //                   startDate.day - 7);
-
-                            //               DateTime newEndDate = DateTime(
-                            //                   startDate.year,
-                            //                   startDate.month,
-                            //                   startDate.day - 1);
-
-                            //               final data = await DB()
-                            //                   .getAllRecordsByWeekendTemp(
-                            //                       DateFormat('yyyy-MM-dd')
-                            //                           .format(newStartDate),
-                            //                       DateFormat('yyyy-MM-dd')
-                            //                           .format(newEndDate));
-
-                            //               // widget.onApplyClick1!(
-                            //               //     newStartDate, newEndDate, data);
-                            //             },
-                            //             child: Container(
-                            //               decoration: BoxDecoration(
-                            //                 color: Colors.white,
-                            //                 borderRadius:
-                            //                     BorderRadius.circular(16),
-                            //               ),
-                            //               padding: const EdgeInsets.symmetric(
-                            //                   vertical: 4),
-                            //               child: const Center(
-                            //                 child: Icon(
-                            //                   Icons.arrow_left,
-                            //                   size: 30,
-                            //                 ),
-                            //               ),
-                            //             ),
-                            //           ),
-                            //         ),
-                            //       ),
-                            //       Expanded(
-                            //         child: GestureDetector(
-                            //           onTap: () async {
-                            //             DateTime newStartDate = DateTime(
-                            //                 endDate.year,
-                            //                 endDate.month,
-                            //                 endDate.day + 1);
-                            //             DateTime newEndDate = DateTime(
-                            //                 endDate.year,
-                            //                 endDate.month,
-                            //                 endDate.day + 7);
-
-                            //             final data = await DB()
-                            //                 .getAllRecordsByWeekendTemp(
-                            //                     DateFormat('yyyy-MM-dd')
-                            //                         .format(newStartDate),
-                            //                     DateFormat('yyyy-MM-dd')
-                            //                         .format(newEndDate));
-
-                            //             // widget.onApplyClick2!(
-                            //             //     newStartDate, newEndDate, data);
-                            //           },
-                            //           child: Container(
-                            //             decoration: BoxDecoration(
-                            //               color: Colors.white,
-                            //               borderRadius:
-                            //                   BorderRadius.circular(16),
-                            //             ),
-                            //             padding: const EdgeInsets.symmetric(
-                            //                 vertical: 4),
-                            //             child: const Center(
-                            //               child: Icon(
-                            //                 Icons.arrow_right,
-                            //                 size: 30,
-                            //               ),
-                            //             ),
-                            //           ),
-                            //         ),
-                            //       )
-                            //     ],
-                            //   ),
-                            // )
                           ],
                         ),
                         const SizedBox(
                           height: 4,
                         ),
-                        // LegendsListWidget(
-                        //   legends: [
-                        //     Legend("Longest", Colors.deepPurple),
-                        //     Legend(
-                        //       "Shortest",
-                        //       Colors.red,
-                        //     ),
-                        //     // Legend("Min", Color(0xffffb3ba)),
-                        //   ],
-                        // ),
                         const SizedBox(
                           height: 20,
                         ),
@@ -361,6 +128,7 @@ class AwakeChartState extends State<AwakeChart> {
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 0.0),
                             child: LineChart(
+                              //διάγραμμα γραμμής για τα στατιστικά μήνα
                               mainMonthlyData(),
                               swapAnimationDuration: animDuration,
                             ),
@@ -372,26 +140,6 @@ class AwakeChartState extends State<AwakeChart> {
                       ],
                     ),
                   ),
-                  // Padding(
-                  //   padding: const EdgeInsets.all(8.0),
-                  //   child: Align(
-                  //     alignment: Alignment.topRight,
-                  //     child: IconButton(
-                  //       icon: Icon(
-                  //         isPlaying ? Icons.pause : Icons.play_arrow,
-                  //         color: const Color(0xff0f4a3c),
-                  //       ),
-                  //       onPressed: () {
-                  //         setState(() {
-                  //           isPlaying = !isPlaying;
-                  //           if (isPlaying) {
-                  //             refreshState();
-                  //           }
-                  //         });
-                  //       },
-                  //     ),
-                  //   ),
-                  // )
                 ],
               ),
             ),
@@ -399,6 +147,7 @@ class AwakeChartState extends State<AwakeChart> {
   }
 
   LineChartData mainMonthlyData() {
+    //συνάρτηση που καθοριζει την μορφη των δεδομένων
     return LineChartData(
       gridData: FlGridData(
         show: false,
@@ -419,6 +168,7 @@ class AwakeChartState extends State<AwakeChart> {
         },
       ),
       lineTouchData: LineTouchData(
+        //ελέγχουμε πότε ο χρήστης πατάει πάνω στα σημεία του διαγράμματος
         touchCallback: (FlTouchEvent event, LineTouchResponse? lineTouch) {
           if (!event.isInterestedForInteractions ||
               lineTouch == null ||
@@ -428,29 +178,19 @@ class AwakeChartState extends State<AwakeChart> {
             });
             return;
           }
-          final value = lineTouch.lineBarSpots![0].x;
-          print(value);
-          // if (value == 0 || value == 6) {
-          //   setState(() {
-          //     touchedValue = -1;
-          //   });
-          //   return;
-          // }
+          final value = lineTouch
+              .lineBarSpots![0].x; //παίρνουμε την τιμή του σημείου που πατήθηκε
 
           setState(() {
-            touchedValue = value;
+            touchedValue = value; //ανανεώνουμαι την τιμή
           });
         },
-        // touchCallback: (event, response) {
-        //   if (response != null && event is FlTapUpEvent) {
-        //     print('tapped');
-        //   }
-        // },
+
         touchTooltipData: LineTouchTooltipData(
           // / 60
           tooltipBgColor: Colors.black,
           getTooltipItems: (List<LineBarSpot> spots) {
-            return spots
+            return spots //κάθε σημείο που πατείται καθορίζουμαι το tooltip Που θα εμφανίζεται
                 .map(
                   (spot) => LineTooltipItem(
                     ((spot.y / 60).toInt()).toString() +
@@ -481,6 +221,7 @@ class AwakeChartState extends State<AwakeChart> {
         ),
       ]),
       titlesData: FlTitlesData(
+        //'αξονες διαγράμματος
         show: true,
         rightTitles: AxisTitles(
           sideTitles: SideTitles(showTitles: false),
@@ -544,6 +285,7 @@ class AwakeChartState extends State<AwakeChart> {
       lineBarsData: [
         LineChartBarData(
           spots: [
+            //δημιουργία FISpots που χρησιμοποιεί το διάγραμμα γραμμής
             for (int i = 0; i < sleepMonthStatistics.length; i++)
               FlSpot(i.toDouble(), sleepMonthStatistics[i].awake!)
           ],
@@ -578,8 +320,6 @@ class AwakeChartState extends State<AwakeChart> {
     double y, {
     bool isTouched = false,
     Color barColor = Colors.purpleAccent,
-    Color maxColor = Colors.purple,
-    Color minColor = Colors.yellow,
     double width = 22,
     List<int> showTooltips = const [],
   }) {
@@ -605,6 +345,7 @@ class AwakeChartState extends State<AwakeChart> {
   }
 
   List<BarChartGroupData> showingGroups() => List.generate(7, (i) {
+        //δεδομένα διαγράμματος στήλης
         switch (i) {
           case 0:
             return makeGroupData(0, sleepWeekendStatistics[0].awake!,
@@ -641,11 +382,13 @@ class AwakeChartState extends State<AwakeChart> {
       });
 
   BarChartData mainBarData() {
+    //format δεδομένων διαγράμματος στήλης
     return BarChartData(
       barTouchData: BarTouchData(
         touchTooltipData: BarTouchTooltipData(
             tooltipBgColor: Colors.blueGrey,
             getTooltipItem: (group, groupIndex, rod, rodIndex) {
+              //tooltip που θα εμφανίζεται
               String weekDay;
               switch (group.x.toInt()) {
                 case 0:
@@ -710,11 +453,13 @@ class AwakeChartState extends State<AwakeChart> {
               touchedIndex = -1;
               return;
             }
-            touchedIndex = barTouchResponse.spot!.touchedBarGroupIndex;
+            touchedIndex = barTouchResponse.spot!
+                .touchedBarGroupIndex; //για να ξέρουμε ποια στήλη πατήθηκε
           });
         },
       ),
       titlesData: FlTitlesData(
+        //άξονες διαγράμματος
         show: true,
         rightTitles: AxisTitles(
           sideTitles: SideTitles(showTitles: false),
@@ -806,7 +551,7 @@ class AwakeChartState extends State<AwakeChart> {
       fontSize: 15,
     );
     String text;
-    print(value);
+
     switch (value.toInt()) {
       case 9:
         text = '9min';
@@ -815,12 +560,6 @@ class AwakeChartState extends State<AwakeChart> {
         text = '18min';
         break;
       // case 26:
-      //   text = '26min';
-      //   break;
-
-      // case 36:
-      //   text = '36min';
-      //   break;
 
       case 50:
         text = '50min';
@@ -838,18 +577,10 @@ class AwakeChartState extends State<AwakeChart> {
       children: [Text(text, style: style)],
     );
   }
-
-  Future<dynamic> refreshState() async {
-    setState(() {});
-    await Future<dynamic>.delayed(
-        animDuration + const Duration(milliseconds: 50));
-    if (isPlaying) {
-      await refreshState();
-    }
-  }
 }
 
 Color find(double score) {
+  //συνάρτηση που αλλάζει το χρώμα της στήλης ανάλογα την τιμή awake time
   double maxValue = sleepWeekendStatistics[0].awake!;
   double minValue = sleepWeekendStatistics[0].awake!;
   print(score);
@@ -862,16 +593,10 @@ Color find(double score) {
     }
   }
   return Colors.purpleAccent;
-  // if (score == maxValue) {
-  //   return Colors.deepPurple;
-  // } else if (score == minValue) {
-  //   return Colors.red;
-  // } else {
-  //   return Colors.purpleAccent;
-  // }
 }
 
 double average() {
+  //εύρεση μέσου όρου awake time
   double totalAverage = 0.0;
   for (int i = 0; i < sleepMonthStatistics.length; i++) {
     totalAverage += sleepMonthStatistics[i].awake!;

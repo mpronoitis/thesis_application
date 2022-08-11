@@ -1,15 +1,13 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
-import 'package:ptixiaki_sleep_stages/first_screen_widgets/sleep_stages_card.dart';
 import 'package:ptixiaki_sleep_stages/widget/appbar_widget.dart';
 import '../../helper/db.dart';
 import '../first_screen_widgets/day_selector.dart';
-import '../first_screen_widgets/meals_list_view.dart';
-import '../first_screen_widgets/pie_chart_home.dart';
+import '../first_screen_widgets/sleep_stages_list_view.dart';
 import '../first_screen_widgets/sleep_view.dart';
 import '../first_screen_widgets/title_view.dart';
-import '../models/meals_list_data.dart';
+import '../models/sleep_stages_list_data.dart';
 import '../models/sleep.dart';
 import '../sleep_app_theme.dart';
 
@@ -29,7 +27,7 @@ class _FirstScreenState extends State<FirstScreen>
   Animation<double>? topBarAnimation;
   var dbHelper;
   List<Widget> listViews = <Widget>[];
-  List<MealsListData> sleepStages = [];
+  List<SleepStagesData> sleepStages = [];
   final ScrollController scrollController = ScrollController();
   double topBarOpacity = 0.0;
   var _isLoading = true;
@@ -81,7 +79,7 @@ class _FirstScreenState extends State<FirstScreen>
       homeData = [...data];
       sleepStages = [
         //δημιουργία καρτών με βάση τα δεδομένα της λίστας
-        MealsListData(
+        SleepStagesData(
           // imagePath: 'assets/sleep_app/breakfast.png',
           titleTxt: 'Deep sleep',
           kacl: getConversion(homeData[0].minutes_deep_sleep!),
@@ -89,7 +87,7 @@ class _FirstScreenState extends State<FirstScreen>
           startColor: '#FA7D82',
           endColor: '#FFB295',
         ),
-        MealsListData(
+        SleepStagesData(
           imagePath: 'assets/sleep_app/lunch.png',
           titleTxt: 'Light sleep',
           kacl: getConversion(homeData[0].minutes_light_sleep!),
@@ -97,7 +95,7 @@ class _FirstScreenState extends State<FirstScreen>
           startColor: '#738AE6',
           endColor: '#5C5EDD',
         ),
-        MealsListData(
+        SleepStagesData(
           imagePath: 'assets/sleep_app/snack.png',
           titleTxt: 'REM sleep',
           kacl: getConversion(homeData[0].minutes_rem_sleep!),
@@ -105,7 +103,7 @@ class _FirstScreenState extends State<FirstScreen>
           startColor: '#FE95B6',
           endColor: '#FF5287',
         ),
-        MealsListData(
+        SleepStagesData(
           imagePath: 'assets/sleep_app/dinner.png',
           titleTxt: 'Awake time',
           kacl: homeData[0].awake.toString(),
@@ -132,7 +130,7 @@ class _FirstScreenState extends State<FirstScreen>
         homeData = [...data];
         listViews = [];
         sleepStages = [
-          MealsListData(
+          SleepStagesData(
             // imagePath: 'assets/sleep_app/breakfast.png',
             titleTxt: 'Deep sleep',
             kacl: getConversion(homeData[0].minutes_deep_sleep!),
@@ -140,7 +138,7 @@ class _FirstScreenState extends State<FirstScreen>
             startColor: '#FA7D82',
             endColor: '#FFB295',
           ),
-          MealsListData(
+          SleepStagesData(
             imagePath: 'assets/sleep_app/lunch.png',
             titleTxt: 'Light sleep',
             kacl: getConversion(homeData[0].minutes_light_sleep!),
@@ -148,7 +146,7 @@ class _FirstScreenState extends State<FirstScreen>
             startColor: '#738AE6',
             endColor: '#5C5EDD',
           ),
-          MealsListData(
+          SleepStagesData(
             imagePath: 'assets/sleep_app/snack.png',
             titleTxt: 'REM sleep',
             kacl: getConversion(homeData[0].minutes_rem_sleep!),
@@ -156,7 +154,7 @@ class _FirstScreenState extends State<FirstScreen>
             startColor: '#FE95B6',
             endColor: '#FF5287',
           ),
-          MealsListData(
+          SleepStagesData(
             imagePath: 'assets/sleep_app/dinner.png',
             titleTxt: 'Awake time',
             kacl: homeData[0].awake.toString(),
@@ -170,6 +168,7 @@ class _FirstScreenState extends State<FirstScreen>
     }));
 
     listViews.add(
+      //δημιουργία widget τίτλου αρχικής οθόνης
       TitleView(
         titleTxt: 'Sleep Information',
         subTxt: 'Details',
@@ -182,6 +181,7 @@ class _FirstScreenState extends State<FirstScreen>
     );
 
     listViews.add(
+      //δημιουργία κάρτας που περιέχει τις πληροφορίες σχετικά για τον ύπνο
       SleepView(
         animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
             parent: widget.animationController!,
@@ -204,14 +204,15 @@ class _FirstScreenState extends State<FirstScreen>
     );
 
     listViews.add(
-      MealsListView(
+      //προσθήκη στην λίστα των καρτών που δείχνουν αναλυτικά κάθε στάδιο του ύπνου
+      SleepStagesView(
         mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
             CurvedAnimation(
                 parent: widget.animationController!,
                 curve: Interval((1 / count) * 3, 1.0,
                     curve: Curves.fastOutSlowIn))),
         mainScreenAnimationController: widget.animationController,
-        mealsListData: sleepStages,
+        sleepStagesListData: sleepStages,
       ),
     );
   }
@@ -234,6 +235,7 @@ class _FirstScreenState extends State<FirstScreen>
                 ? Text('No Data')
                 : getMainListViewUI(), //αμα δεν υπάρχουν δεδομένα εμφανίζει μήνυμα αλλίως φτιάχνει τν οθόνη
             AppBarWidget(
+              //αρχικοποιήση app bar
               animationController: widget.animationController,
               topBarAnimation: topBarAnimation,
               topBarOpacity: topBarOpacity,

@@ -6,6 +6,7 @@ class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+        // ignore: prefer_const_constructors
         child: Center(
       child: Text('Under Construction'),
     ));

@@ -10,15 +10,6 @@ import 'package:ptixiaki_sleep_stages/sleep_app_theme.dart';
 import '../statistics_month/legend_widget.dart';
 
 class SleepQualityChart extends StatefulWidget {
-  final List<Color> availableColors = const [
-    Colors.purpleAccent,
-    Colors.yellow,
-    Colors.lightBlue,
-    Colors.orange,
-    Colors.pink,
-    Colors.redAccent,
-  ];
-
   const SleepQualityChart({Key? key}) : super(key: key);
 
   @override
@@ -26,16 +17,17 @@ class SleepQualityChart extends StatefulWidget {
 }
 
 class SleepQualityChartState extends State<SleepQualityChart> {
+//Αρχικοποιήσεις
   final Color barBackgroundColor = const Color(0xff72d8bf);
   final Duration animDuration = const Duration(milliseconds: 250);
-
   int touchedIndex = -1;
-
   bool isPlaying = false;
+  //τέλος αρχικοποιήσεων
 
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
+      //κάρτα που θα βάλουμε πάνω σε αυτό το γράφημα
       aspectRatio: 1,
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
@@ -66,6 +58,7 @@ class SleepQualityChartState extends State<SleepQualityChart> {
                   ),
                   LegendsListWidget(
                     legends: [
+                      //legends γραφήματος
                       Legend("Appropriate", Colors.deepPurple),
                       Legend("Uncertain", Colors.purple),
                       Legend("Inappropriate", HexColor("#D27AE7")),
@@ -79,7 +72,7 @@ class SleepQualityChartState extends State<SleepQualityChart> {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: BarChart(
-                        mainBarData(),
+                        mainBarData(), //δεδομένα γραφήματος
                         swapAnimationDuration: animDuration,
                       ),
                     ),
@@ -125,6 +118,7 @@ class SleepQualityChartState extends State<SleepQualityChart> {
     );
   }
 
+//δημιουργία λίστας για τα δεδομένα που θα χρησιμοποιήσει το γράφημα
   List<BarChartGroupData> showingGroups() =>
       List.generate(sleepWeekendStatistics.length, (i) {
         switch (i) {
@@ -162,6 +156,7 @@ class SleepQualityChartState extends State<SleepQualityChart> {
       });
 
   BarChartData mainBarData() {
+    //μορφή δεδομένων
     return BarChartData(
       barTouchData: BarTouchData(
         touchTooltipData: BarTouchTooltipData(
@@ -328,17 +323,9 @@ class SleepQualityChartState extends State<SleepQualityChart> {
       children: [Text(text, style: style)],
     );
   }
-
-  Future<dynamic> refreshState() async {
-    setState(() {});
-    await Future<dynamic>.delayed(
-        animDuration + const Duration(milliseconds: 50));
-    if (isPlaying) {
-      await refreshState();
-    }
-  }
 }
 
+//ανάλογα την τιμή της ποιότητας ύπνου θέλουμε να βρίσκουμε σε ποια κατηγορία ανήκει και ανάλογα να επιστρέφουμε άλλο χρώμα
 Color find(double score) {
   if (score >= 0.85 && score <= 0.99) {
     return Colors.deepPurple;

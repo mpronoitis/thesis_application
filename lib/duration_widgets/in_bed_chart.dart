@@ -14,14 +14,6 @@ import '../statistics_month/legend_widget.dart';
 
 class InBedChart extends StatefulWidget {
   final bool type;
-  final List<Color> availableColors = const [
-    Colors.purpleAccent,
-    Colors.yellow,
-    Colors.lightBlue,
-    Colors.orange,
-    Colors.pink,
-    Colors.redAccent,
-  ];
 
   const InBedChart({Key? key, required this.type}) : super(key: key);
 
@@ -30,9 +22,9 @@ class InBedChart extends StatefulWidget {
 }
 
 class InBedChartState extends State<InBedChart> {
+  //Αρχικοποιήσεις
   final Color barBackgroundColor = const Color(0xff72d8bf);
   final Duration animDuration = const Duration(milliseconds: 250);
-
   int touchedIndex = -1;
   List<Color> gradientColors = [
     Colors.purple,
@@ -41,19 +33,12 @@ class InBedChartState extends State<InBedChart> {
   double touchedValue = -1;
   int tapIndex = -1;
   bool isPlaying = false;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    // print(sleepWeekendStatistics[0].asleep_min);
-  }
-
+//τέλος αρχικοποιήσεων
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
       aspectRatio: 1.8,
-      child: widget.type == true //
+      child: widget.type == true
           ? Card(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(18)),
@@ -77,105 +62,13 @@ class InBedChartState extends State<InBedChart> {
                                   fontSize: 24,
                                   fontWeight: FontWeight.bold),
                             ),
-                            // Container(
-                            //   width: 140,
-                            //   decoration: BoxDecoration(
-                            //     color: Colors.grey[200],
-                            //     borderRadius: BorderRadius.circular(16),
-                            //   ),
-                            //   child: Row(
-                            //     children: [
-                            //       Expanded(
-                            //         child: Padding(
-                            //           padding: const EdgeInsets.all(3.0),
-                            //           child: GestureDetector(
-                            //             onTap: () async {
-                            //               DateTime newStartDate = DateTime(
-                            //                   startDate.year,
-                            //                   startDate.month,
-                            //                   startDate.day - 7);
-
-                            //               DateTime newEndDate = DateTime(
-                            //                   startDate.year,
-                            //                   startDate.month,
-                            //                   startDate.day - 1);
-
-                            //               final data = await DB()
-                            //                   .getAllRecordsByWeekendTemp(
-                            //                       DateFormat('yyyy-MM-dd')
-                            //                           .format(newStartDate),
-                            //                       DateFormat('yyyy-MM-dd')
-                            //                           .format(newEndDate));
-
-                            //               // widget.onApplyClick1!(
-                            //               //     newStartDate, newEndDate, data);
-                            //             },
-                            //             child: Container(
-                            //               decoration: BoxDecoration(
-                            //                 color: Colors.white,
-                            //                 borderRadius:
-                            //                     BorderRadius.circular(16),
-                            //               ),
-                            //               padding: const EdgeInsets.symmetric(
-                            //                   vertical: 4),
-                            //               child: const Center(
-                            //                 child: Icon(
-                            //                   Icons.arrow_left,
-                            //                   size: 30,
-                            //                 ),
-                            //               ),
-                            //             ),
-                            //           ),
-                            //         ),
-                            //       ),
-                            //       Expanded(
-                            //         child: GestureDetector(
-                            //           onTap: () async {
-                            //             DateTime newStartDate = DateTime(
-                            //                 endDate.year,
-                            //                 endDate.month,
-                            //                 endDate.day + 1);
-                            //             DateTime newEndDate = DateTime(
-                            //                 endDate.year,
-                            //                 endDate.month,
-                            //                 endDate.day + 7);
-
-                            //             final data = await DB()
-                            //                 .getAllRecordsByWeekendTemp(
-                            //                     DateFormat('yyyy-MM-dd')
-                            //                         .format(newStartDate),
-                            //                     DateFormat('yyyy-MM-dd')
-                            //                         .format(newEndDate));
-
-                            //             // widget.onApplyClick2!(
-                            //             //     newStartDate, newEndDate, data);
-                            //           },
-                            //           child: Container(
-                            //             decoration: BoxDecoration(
-                            //               color: Colors.white,
-                            //               borderRadius:
-                            //                   BorderRadius.circular(16),
-                            //             ),
-                            //             padding: const EdgeInsets.symmetric(
-                            //                 vertical: 4),
-                            //             child: const Center(
-                            //               child: Icon(
-                            //                 Icons.arrow_right,
-                            //                 size: 30,
-                            //               ),
-                            //             ),
-                            //           ),
-                            //         ),
-                            //       )
-                            //     ],
-                            //   ),
-                            // )
                           ],
                         ),
                         const SizedBox(
                           height: 4,
                         ),
                         LegendsListWidget(
+                          //legends που εμφανίζονται πάνω στο διάγραμμα
                           legends: [
                             Legend("Longest", Colors.purple),
                             // Legend("Min", Color(0xffffb3ba)),
@@ -200,26 +93,6 @@ class InBedChartState extends State<InBedChart> {
                       ],
                     ),
                   ),
-                  // Padding(
-                  //   padding: const EdgeInsets.all(8.0),
-                  //   child: Align(
-                  //     alignment: Alignment.topRight,
-                  //     child: IconButton(
-                  //       icon: Icon(
-                  //         isPlaying ? Icons.pause : Icons.play_arrow,
-                  //         color: const Color(0xff0f4a3c),
-                  //       ),
-                  //       onPressed: () {
-                  //         setState(() {
-                  //           isPlaying = !isPlaying;
-                  //           if (isPlaying) {
-                  //             refreshState();
-                  //           }
-                  //         });
-                  //       },
-                  //     ),
-                  //   ),
-                  // )
                 ],
               ),
             )
@@ -246,110 +119,11 @@ class InBedChartState extends State<InBedChart> {
                                   fontSize: 24,
                                   fontWeight: FontWeight.bold),
                             ),
-                            // Container(
-                            //   width: 140,
-                            //   decoration: BoxDecoration(
-                            //     color: Colors.grey[200],
-                            //     borderRadius: BorderRadius.circular(16),
-                            //   ),
-                            //   child: Row(
-                            //     children: [
-                            //       Expanded(
-                            //         child: Padding(
-                            //           padding: const EdgeInsets.all(3.0),
-                            //           child: GestureDetector(
-                            //             onTap: () async {
-                            //               DateTime newStartDate = DateTime(
-                            //                   startDate.year,
-                            //                   startDate.month,
-                            //                   startDate.day - 7);
-
-                            //               DateTime newEndDate = DateTime(
-                            //                   startDate.year,
-                            //                   startDate.month,
-                            //                   startDate.day - 1);
-
-                            //               final data = await DB()
-                            //                   .getAllRecordsByWeekendTemp(
-                            //                       DateFormat('yyyy-MM-dd')
-                            //                           .format(newStartDate),
-                            //                       DateFormat('yyyy-MM-dd')
-                            //                           .format(newEndDate));
-
-                            //               // widget.onApplyClick1!(
-                            //               //     newStartDate, newEndDate, data);
-                            //             },
-                            //             child: Container(
-                            //               decoration: BoxDecoration(
-                            //                 color: Colors.white,
-                            //                 borderRadius:
-                            //                     BorderRadius.circular(16),
-                            //               ),
-                            //               padding: const EdgeInsets.symmetric(
-                            //                   vertical: 4),
-                            //               child: const Center(
-                            //                 child: Icon(
-                            //                   Icons.arrow_left,
-                            //                   size: 30,
-                            //                 ),
-                            //               ),
-                            //             ),
-                            //           ),
-                            //         ),
-                            //       ),
-                            //       Expanded(
-                            //         child: GestureDetector(
-                            //           onTap: () async {
-                            //             DateTime newStartDate = DateTime(
-                            //                 endDate.year,
-                            //                 endDate.month,
-                            //                 endDate.day + 1);
-                            //             DateTime newEndDate = DateTime(
-                            //                 endDate.year,
-                            //                 endDate.month,
-                            //                 endDate.day + 7);
-
-                            //             final data = await DB()
-                            //                 .getAllRecordsByWeekendTemp(
-                            //                     DateFormat('yyyy-MM-dd')
-                            //                         .format(newStartDate),
-                            //                     DateFormat('yyyy-MM-dd')
-                            //                         .format(newEndDate));
-
-                            //             // widget.onApplyClick2!(
-                            //             //     newStartDate, newEndDate, data);
-                            //           },
-                            //           child: Container(
-                            //             decoration: BoxDecoration(
-                            //               color: Colors.white,
-                            //               borderRadius:
-                            //                   BorderRadius.circular(16),
-                            //             ),
-                            //             padding: const EdgeInsets.symmetric(
-                            //                 vertical: 4),
-                            //             child: const Center(
-                            //               child: Icon(
-                            //                 Icons.arrow_right,
-                            //                 size: 30,
-                            //               ),
-                            //             ),
-                            //           ),
-                            //         ),
-                            //       )
-                            //     ],
-                            //   ),
-                            // )
                           ],
                         ),
                         const SizedBox(
                           height: 4,
                         ),
-                        // LegendsListWidget(
-                        //   legends: [
-                        //     Legend("Longest", Colors.purple),
-                        //     // Legend("Min", Color(0xffffb3ba)),
-                        //   ],
-                        // ),
                         const SizedBox(
                           height: 38,
                         ),
@@ -369,26 +143,6 @@ class InBedChartState extends State<InBedChart> {
                       ],
                     ),
                   ),
-                  // Padding(
-                  //   padding: const EdgeInsets.all(8.0),
-                  //   child: Align(
-                  //     alignment: Alignment.topRight,
-                  //     child: IconButton(
-                  //       icon: Icon(
-                  //         isPlaying ? Icons.pause : Icons.play_arrow,
-                  //         color: const Color(0xff0f4a3c),
-                  //       ),
-                  //       onPressed: () {
-                  //         setState(() {
-                  //           isPlaying = !isPlaying;
-                  //           if (isPlaying) {
-                  //             refreshState();
-                  //           }
-                  //         });
-                  //       },
-                  //     ),
-                  //   ),
-                  // )
                 ],
               ),
             ),
@@ -396,6 +150,7 @@ class InBedChartState extends State<InBedChart> {
   }
 
   LineChartData mainMonthlyData() {
+    //δεδομένα διαγράμματος στατιστικών μήνα
     return LineChartData(
       gridData: FlGridData(
         show: false,
@@ -571,6 +326,7 @@ class InBedChartState extends State<InBedChart> {
   }
 
   BarChartGroupData makeGroupData(
+    //δεδομένα διαγράμματος στατικών εβδομάδας
     int x,
     double y,
     bool isMax, {
@@ -838,9 +594,7 @@ class InBedChartState extends State<InBedChart> {
       case 426:
         text = '7h 6m';
         break;
-      // case 369:
-      //   text = '6h 9m';
-      //   break;
+
       case 310:
         text = '5h 10m';
         break;
@@ -851,15 +605,6 @@ class InBedChartState extends State<InBedChart> {
     return Row(
       children: [Text(text, style: style)],
     );
-  }
-
-  Future<dynamic> refreshState() async {
-    setState(() {});
-    await Future<dynamic>.delayed(
-        animDuration + const Duration(milliseconds: 50));
-    if (isPlaying) {
-      await refreshState();
-    }
   }
 }
 
@@ -883,208 +628,3 @@ bool find(double score) {
   print(maxValue);
   return score == maxValue;
 }
-
-
-
-
-// ignore_for_file: unnecessary_string_interpolations, prefer_const_constructors
-
-// import 'package:flutter/material.dart';
-// import 'package:intl/intl.dart';
-// import 'package:syncfusion_flutter_charts/charts.dart';
-
-// import '../models/sleep.dart';
-// import '../screens/statistics_weekend.dart';
-// import '../sleep_app_theme.dart';
-
-// class SleepQualityChart extends StatefulWidget {
-//   const SleepQualityChart({Key? key}) : super(key: key);
-
-//   @override
-//   State<SleepQualityChart> createState() => _SleepQualityChartState();
-// }
-
-// class _SleepQualityChartState extends State<SleepQualityChart> {
-//   TooltipBehavior? _tooltipBehavior;
-//   @override
-//   void initState() {
-//     _tooltipBehavior = TooltipBehavior(
-//         enable: true,
-//         canShowMarker: false,
-//         header: '',
-//         textStyle: TextStyle(
-//           fontSize: 18,
-//         ),
-//         format: 'point.y sleep score in point.x');
-//     super.initState();
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//         width: 300,
-//         height: 400,
-//         decoration: BoxDecoration(
-//           // gradient: LinearGradient(colors: [
-//           //   Color(0xff0f17ad).withOpacity(0.8),
-//           //   Color(0xFF6985e8).withOpacity(0.9)
-//           // ]),
-//           color: SleepAppTheme.white,
-//           borderRadius: const BorderRadius.only(
-//               topLeft: Radius.circular(8.0),
-//               bottomLeft: Radius.circular(8.0),
-//               bottomRight: Radius.circular(8.0),
-//               topRight: Radius.circular(8.0)),
-//           boxShadow: <BoxShadow>[
-//             //colorLor
-//             BoxShadow(
-//                 color: SleepAppTheme.grey.withOpacity(0.2),
-//                 offset: Offset(1.1, 1.1),
-//                 blurRadius: 10.0),
-//           ],
-//         ),
-//         child: _buildRoundedBarChart());
-//   }
-
-//   SfCartesianChart _buildRoundedBarChart() {
-//     return SfCartesianChart(
-//       plotAreaBorderWidth: 0,
-//       title: ChartTitle(text: 'Sleep Quality By Day'),
-//       primaryXAxis:
-//           CategoryAxis(majorGridLines: const MajorGridLines(width: 0)),
-//       primaryYAxis: NumericAxis(
-//           labelFormat: '{value}%',
-//           minimum: 0,
-//           maximum: 100,
-//           majorTickLines: const MajorTickLines(size: 0)),
-//       series: _getRoundedBarSeries(),
-//       tooltipBehavior: _tooltipBehavior,
-//     );
-//   }
-
-//   List<BarSeries<Sleep, String>> _getRoundedBarSeries() {
-//     return <BarSeries<Sleep, String>>[
-//       BarSeries<Sleep, String>(
-//         dataSource: sleepWeekendStatistics,
-//         color: Colors.deepPurple,
-
-//         /// We can enable the track for column here.
-//         isTrackVisible: true,
-//         trackColor: const Color.fromRGBO(198, 201, 207, 1),
-
-//         /// If we set the border radius value for bar series,
-//         /// then the series will appear as rounder corner.
-//         borderRadius: const BorderRadius.all(Radius.circular(10)),
-//         xValueMapper: (Sleep sales, _) =>
-//             ' ${DateFormat.d().format(DateTime.parse(sales.recording_day))}' +
-//             '${'/'}' +
-//             '${DateFormat.M().format(DateTime.parse(sales.recording_day))}' +
-//             '${'\n'}' +
-//             '${DateFormat.E().format(DateTime.parse(sales.recording_day))}',
-//         yValueMapper: (Sleep sales, _) => sales.sleep_score * 100,
-//       ),
-//     ];
-//   }
-// }
-
-// // class SleepQualityChart extends StatefulWidget {
-// //   const SleepQualityChart({Key? key}) : super(key: key);
-
-// //   @override
-// //   State<SleepQualityChart> createState() => _SleepQualityChartState();
-// // }
-
-// // class _SleepQualityChartState extends State<SleepQualityChart> {
-// //   TooltipBehavior? _tooltipBehavior;
-
-// //   @override
-// //   void initState() {
-// //     _tooltipBehavior = TooltipBehavior(
-// //         enable: true,
-// //         canShowMarker: false,
-// //         header: '',
-// //         textStyle: TextStyle(
-// //           fontSize: 18,
-// //         ),
-// //         format: 'point.y sleep score in point.x');
-// //     super.initState();
-// //   }
-
-// //   @override
-// //   Widget build(BuildContext context) {
-// //     return Container(
-// //         decoration: BoxDecoration(
-// //           // gradient: LinearGradient(colors: [
-// //           //   Color(0xff0f17ad).withOpacity(0.8),
-// //           //   Color(0xFF6985e8).withOpacity(0.9)
-// //           // ]),
-// //           color: SleepAppTheme.white,
-// //           borderRadius: const BorderRadius.only(
-// //               topLeft: Radius.circular(8.0),
-// //               bottomLeft: Radius.circular(8.0),
-// //               bottomRight: Radius.circular(8.0),
-// //               topRight: Radius.circular(8.0)),
-// //           boxShadow: <BoxShadow>[
-// //             //colorLor
-// //             BoxShadow(
-// //                 color: SleepAppTheme.grey.withOpacity(0.2),
-// //                 offset: Offset(1.1, 1.1),
-// //                 blurRadius: 10.0),
-// //           ],
-// //         ),
-// //         child: _buildTrackerColumnChart());
-// //   }
-
-// //   SfCartesianChart _buildTrackerColumnChart() {
-// //     return SfCartesianChart(
-// //       plotAreaBorderWidth: 0,
-// //       title: ChartTitle(text: 'Sleep Quality By Day'),
-// //       // legend: Legend(isVisible: !isCardView),
-// //       primaryXAxis: CategoryAxis(
-// //         axisLine: const AxisLine(width: 0),
-// //         majorGridLines: const MajorGridLines(width: 0),
-// //         majorTickLines: const MajorTickLines(size: 0),
-// //       ),
-// //       // labelStyle: TextStyle(
-// //       //   fontSize: 16,
-// //       // )),
-// //       primaryYAxis: NumericAxis(
-// //           labelFormat: '{value}%',
-// //           isVisible: true,
-// //           minimum: 0,
-// //           maximum: 100,
-// //           axisLine: const AxisLine(width: 0),
-// //           majorGridLines: const MajorGridLines(width: 0),
-// //           majorTickLines: const MajorTickLines(size: 0)),
-// //       series: _getTracker(),
-// //       tooltipBehavior: _tooltipBehavior,
-// //     );
-// //   }
-
-// //   List<ColumnSeries<Sleep, String>> _getTracker() {
-// //     return <ColumnSeries<Sleep, String>>[
-// //       ColumnSeries<Sleep, String>(
-// //         dataSource: sleepWeekendStatistics,
-// //         color: Colors.deepPurple,
-
-// //         /// We can enable the track for column here.
-// //         isTrackVisible: true,
-// //         trackColor: const Color.fromRGBO(198, 201, 207, 1),
-// //         borderRadius: BorderRadius.circular(15),
-// //         xValueMapper: (Sleep sales, _) =>
-// //             ' ${DateFormat.d().format(DateTime.parse(sales.recording_day))}' +
-// //             '${'/'}' +
-// //             '${DateFormat.M().format(DateTime.parse(sales.recording_day))}' +
-// //             '${'\n'}' +
-// //             '${DateFormat.E().format(DateTime.parse(sales.recording_day))}',
-// //         yValueMapper: (Sleep sales, _) => sales.sleep_score * 100,
-// //         name: 'Stats',
-// //       )
-// //       // dataLabelSettings: const DataLabelSettings(
-// //       //     isVisible: true,
-// //       //     labelAlignment: ChartDataLabelAlignment.top,
-// //       //     textStyle: TextStyle(fontSize: 14, color: Colors.white)))
-// //     ];
-// //   }
-// // }
-
