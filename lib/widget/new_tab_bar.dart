@@ -7,7 +7,7 @@ import 'package:ptixiaki_sleep_stages/duration_widgets/in_bed_chart.dart';
 import 'package:ptixiaki_sleep_stages/sleep_app_theme.dart';
 import 'package:ptixiaki_sleep_stages/statistics_weekend/sleep_quality_chart.dart';
 
-//Widget για την δημιουργία των tabs των κατηγοριών
+//Widget για την δημιουργία των tabs των 3 υποκατηγοριών της κατηγορίας duration
 class NewTabBar extends StatefulWidget {
   final bool type;
   const NewTabBar({Key? key, required this.type}) : super(key: key);
@@ -57,7 +57,7 @@ class _NewTabBarState extends State<NewTabBar> with TickerProviderStateMixin {
           child: TabBarView(
             controller: _tabController,
             children: [
-              //επειδή και στα στατιστική εβδομάδας και τα στατιστικά μήνα έχουν τα ίδια tabs με βάση των τύπο οθόνης δημιουργούμαι το διάγραμμα
+              //επειδή και στα στατιστικά εβδομάδας και τα στατιστικά μήνα έχουν τα ίδια tabs με βάση των τύπο οθόνης δημιουργούμαι το διάγραμμα
               InBedChart(
                 type: widget.type,
               ),
